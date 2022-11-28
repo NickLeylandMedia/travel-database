@@ -1,7 +1,7 @@
 const allRestaurantsQuery = async () => {
   try {
     const response = await fetch(
-      "https://brickwall-adult-server.onrender.com/api/girls",
+      "https://brickwall-travel-database.onrender.com/api/restaurants",
       {
         method: "GET",
         mode: "cors",
@@ -15,7 +15,7 @@ const allRestaurantsQuery = async () => {
     return json;
   } catch (error) {
     console.log("error", error);
-    return [];
+    return { error: error };
   }
 };
 

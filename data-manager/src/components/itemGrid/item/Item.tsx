@@ -3,7 +3,7 @@
 import React from "react";
 
 /* Stylesheet Imports */
-import "./ItemEditorDisp.scss";
+import "./Item.scss";
 
 /* Image Imports */
 
@@ -14,10 +14,10 @@ import "./ItemEditorDisp.scss";
 /* Component Interfaces */
 
 /* Component/Functions */
-const ItemEditorDisp = () => {
+const Item = () => {
   //Function return statement
-  return <div className="ItemEditorDisp"></div>;
+  return <div className="Item"></div>;
 };
 
 /* Export Statement */
-export default ItemEditorDisp;
+export default Item;

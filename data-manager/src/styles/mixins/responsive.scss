@@ -1,0 +1,37 @@
+//Small Screens Breakpoint
+$screen-sm-min: 640px;
+
+//Medium Screens Breakpoint
+$screen-md-min: 768px;
+
+//Large Screens Breakpoint
+$screen-lg-min: 1024px;
+
+//XL Screens Breakpoint
+$screen-xl-min: 1280px;
+
+//Mixins
+//Small Screen Mixin
+@mixin sm {
+  @media (min-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+//Medium Screen Mixin
+@mixin md {
+  @media (min-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+//Large Screen Mixin
+@mixin lg {
+  @media (min-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+//XL Screen Mixin
+@mixin xl {
+  @media (min-width: #{$screen-xl-min}) {
+    @content;
+  }
+}
