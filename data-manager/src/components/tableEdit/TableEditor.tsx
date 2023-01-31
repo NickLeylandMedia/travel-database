@@ -26,13 +26,20 @@ const TableEditor: React.FC<Props> = ({ dataMode }) => {
     restaurants: useQuery(["restaurants"], allRestaurantsQuery),
   };
 
+  if (queries[dataMode]) {
+    if (queries[dataMode].isSuccess) {
+      console.log("Data Loaded");
+      console.log(queries[dataMode].data);
+    }
+  }
+
   //Function return statement
   return (
     <div className="TableEditor">
       <div className="editorActions">
         <button className="editorButton">ADD ITEM</button>
       </div>
-      {queries[dataMode].onSuccess ? (
+      {queries[dataMode].isSuccess ? (
         <ItemGrid items={queries[dataMode].data} />
       ) : (
         <h2>Loading...</h2>
