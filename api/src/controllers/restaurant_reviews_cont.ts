@@ -45,13 +45,13 @@ const addResReview = async (
 };
 
 //Delete All Items from Database
-const deleteAllResReviews = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  return res.json({ message: "All items deleted" });
-};
+// const deleteAllResReviews = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   return res.json({ message: "All items deleted" });
+// };
 
 //Delete One Item from Database
 const deleteOneResReview = async (
@@ -170,7 +170,7 @@ const modifyResReview = async (
 /* Export Controller Functions */
 export default {
   addResReview,
-  deleteAllResReviews,
+  // deleteAllResReviews,
   deleteOneResReview,
   getAllResReviews,
   getOneResReview,

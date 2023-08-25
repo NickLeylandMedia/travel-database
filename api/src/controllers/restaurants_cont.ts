@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 
+import { parse } from "papaparse";
+
+import { readFile } from "fs";
+
 //Database Import
 import db from "../db";
 
@@ -45,13 +49,73 @@ const addRestaurant = async (
   }
 };
 
-// const deleteAllRestaurants = (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   res.json({ message: "All Restaurants deleted" });
-// };
+const addRestaurantBulk = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const file = req.file;
+  const payload = {
+    success: <any[]>[],
+    error: <any[]>[],
+  };
+
+  await readFile(String(file?.path), "utf-8", (err: any, data: any) => {
+    const parsedData = parse(data, { header: true }).data;
+    for (let i = 0; i < parsedData.length; i++) {
+      const item: any = parsedData[i];
+      db.cbquery(
+        "insert into restaurants (name, city, state, coord, description, picture, zip, address, active, seasonal, month_closed_text, month_closed_numeric, year_closed) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *",
+        [
+          item["Name"] || "Not entered",
+          item["City"] || "Not entered",
+          item["State"] || "Not entered",
+          item["Coordinates"] || null,
+          item["Description"] || null,
+          item["Picture"] || null,
+          item["Zip"] || "Not entered",
+          item["Address"] || null,
+          item["Active"] || true,
+          item["Seasonal"] || null,
+          item["monthClosedText"] || null,
+          item["monthClosedNumeric"] || null,
+          item["yearClosed"] || null,
+        ],
+        (err: any, result: any) => {
+          if (err) {
+            payload.error.push(err);
+          } else {
+            payload.success.push(result);
+          }
+          if (i === parsedData.length - 1) {
+            const suclength = payload.success.length;
+            const errlength = payload.error.length;
+            return res.json({
+              message: `Success: ${suclength} records added. | Error: ${errlength} records failed to add.`,
+              success: payload.success,
+              error: payload.error,
+            });
+          }
+        }
+      );
+    }
+  });
+};
+
+const deleteAllRestaurants = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const query = db.query("truncate restaurants", []);
+
+    //Success Result
+    return res.json({ message: "All Restaurants deleted" });
+  } catch (err) {
+    return res.json({ error: "Request Failed", info: err });
+  }
+};
 
 const deleteOneRestaurant = async (
   req: Request,
@@ -168,7 +232,8 @@ const modifyRestaurant = async (
 
 export default {
   addRestaurant,
-  // deleteAllRestaurants,
+  addRestaurantBulk,
+  deleteAllRestaurants,
   deleteOneRestaurant,
   getAllRestaurants,
   getOneRestaurant,

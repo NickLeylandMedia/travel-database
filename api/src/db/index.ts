@@ -23,6 +23,12 @@ const pool = new Pool({
   connectionString: DBCONN,
 });
 
-const query = (text: any, params: any): any => pool.query(text, params);
+const cbquery = (text: any, params: any, callback: any): any => {
+  pool.query(text, params, callback);
+};
 
-export default { pool, query };
+const query = (text: any, params: any): any => {
+  pool.query(text, params);
+};
+
+export default { pool, query, cbquery };

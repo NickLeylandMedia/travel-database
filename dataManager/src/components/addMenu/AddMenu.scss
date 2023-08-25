@@ -1,0 +1,21 @@
+.AddMenu {
+  width: 90%;
+  height: 300px;
+  margin: 25px auto;
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+
+  button {
+    padding: 10px 25px;
+    width: 25%;
+    margin: 10px auto;
+    cursor: pointer;
+  }
+
+  h3 {
+    text-align: center;
+  }
+}
