@@ -4,13 +4,10 @@ import { Request, Response, NextFunction } from "express";
 import db from "../db";
 
 //Import Validators
-import {
-  valAddResType,
-  valModResType,
-} from "../validators/restaurant_types_val";
+import { validateAddRestaurantType } from "../validators/restaurantTypeValidator";
 
 const addType = async (req: Request, res: Response, next: NextFunction) => {
-  if (!valAddResType(req.body)) {
+  if (!validateAddRestaurantType(req.body)) {
     return res.json({
       Error: "Invalid request structure.",
     });
@@ -109,11 +106,11 @@ const modifyResType = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!valModResType(req.body)) {
-    return res.json({
-      Error: "Invalid request structure.",
-    });
-  }
+  // if (!valModResType(req.body)) {
+  //   return res.json({
+  //     Error: "Invalid request structure.",
+  //   });
+  // }
 
   try {
     //Modify Item In db

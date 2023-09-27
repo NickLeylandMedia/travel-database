@@ -2,19 +2,19 @@ import express from "express";
 
 import multer from "multer";
 
-import restController from "../controllers/restaurants_cont";
+import restController from "../controllers/restaurantController";
 
-const upload = multer({ dest: "tmp/csv/" });
+// const upload = multer({ dest: "tmp/csv/" });
 
 const router = express.Router();
 
 router.post("/api/restaurants", restController.addRestaurant);
 
-router.post(
-  "/api/restaurants/bulk",
-  upload.single("csv"),
-  restController.addRestaurantBulk
-);
+// router.post(
+//   "/api/restaurants/bulk",
+//   upload.single("csv"),
+//   restController.addRestaurantBulk
+// );
 
 // router.delete("/api/restaurants/", restController.deleteAllRestaurants);
 

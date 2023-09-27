@@ -5,12 +5,12 @@ import { Request, Response, NextFunction } from "express";
 import db from "../db";
 
 //Import Validators
-import { valAddResTag, valModResTag } from "../validators/restaurant_tags_val";
+import { validateRestaurantTag } from "../validators/restaurantTagValidator";
 
 /* Controller Functions */
 //Add Item to Database
 const addResTag = async (req: Request, res: Response, next: NextFunction) => {
-  if (!valAddResTag(req.body)) {
+  if (!validateRestaurantTag(req.body)) {
     return res.json({
       Error: "Invalid request structure.",
     });
@@ -20,7 +20,7 @@ const addResTag = async (req: Request, res: Response, next: NextFunction) => {
     //Add Item To db
     const query = await db.query(
       "insert into restaurant_tags (name, description) values ($1, $2) returning *",
-      [req.body.name || "Not Entered", req.body.description || null]
+      [req.body.name, req.body.description]
     );
 
     //Success Result
@@ -116,13 +116,13 @@ const getOneResTag = async (
   }
 };
 
-//Update One Item in Database
+//Modify Item in Database
 const modifyResTag = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  if (!valModResTag(req.body)) {
+  if (!validateRestaurantTag(req.body)) {
     return res.json({
       Error: "Invalid request structure.",
     });
@@ -133,8 +133,8 @@ const modifyResTag = async (
     const query = await db.query(
       "update restaurant_tags set name = $1, description = $2, last_edited = $3 where id = $4 returning *",
       [
-        req.body.name || "Not entered",
-        req.body.description || null,
+        req.body.name,
+        req.body.description,
         new Date(Date.now()).toISOString(),
         req.params.id,
       ]

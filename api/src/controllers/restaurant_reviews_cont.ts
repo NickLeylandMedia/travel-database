@@ -5,10 +5,7 @@ import { Request, Response, NextFunction } from "express";
 import db from "../db";
 
 //Import Validators
-import {
-  valAddResReview,
-  valModResReview,
-} from "../validators/restaurant_reviews_val";
+import { validateAddRestaurantReview } from "../validators/restaurantReviewValidator";
 
 /* Controller Functions */
 //Add Item to Database
@@ -17,7 +14,7 @@ const addResReview = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!valAddResReview(req.body)) {
+  if (!validateAddRestaurantReview(req.body)) {
     return res.json({
       Error: "Invalid request structure.",
     });
@@ -28,11 +25,11 @@ const addResReview = async (
     const query = await db.query(
       "insert into restaurant_reviews (restaurant_id, title, content, score10, date_visited) values ($1, $2, $3, $4, $5) returning *",
       [
-        req.body.restaurant_id || "Not Entered",
-        req.body.title || "Not Entered",
-        req.body.content || "Not Entered",
-        req.body.score10 || 0,
-        req.body.date_visited || null,
+        req.body.restaurant_id,
+        req.body.title,
+        req.body.content,
+        req.body.score10,
+        req.body.date_visited,
       ]
     );
 
@@ -135,11 +132,11 @@ const modifyResReview = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!valModResReview(req.body)) {
-    return res.json({
-      Error: "Invalid request structure.",
-    });
-  }
+  // if (!valModResReview(req.body)) {
+  //   return res.json({
+  //     Error: "Invalid request structure.",
+  //   });
+  // }
 
   try {
     //Modify Item In db

@@ -24,11 +24,11 @@ const pool = new Pool({
 });
 
 const cbquery = (text: any, params: any, callback: any): any => {
-  pool.query(text, params, callback);
+  return pool.query(text, params, callback);
 };
 
 const query = (text: any, params: any): any => {
-  pool.query(text, params);
+  return pool.query(text, params);
 };
 
 export default { pool, query, cbquery };

@@ -13,7 +13,7 @@ import resTagRelRoutes from "./routes/joinRoutes/restaurants_tags_rel_route";
 import resTypeRelRoutes from "./routes/joinRoutes/restaurants_types_rel_route";
 //Standard Route Imports
 import restReviewRoutes from "./routes/restaurant_reviews_route";
-import restRoutes from "./routes/restaurants_route";
+import restRoutes from "./routes/restaurantRoute";
 import resTagRoutes from "./routes/restaurant_tags_route";
 import resTypeRoutes from "./routes/restaurant_types_route";
 import mealRoutes from "./routes/meals_route";
