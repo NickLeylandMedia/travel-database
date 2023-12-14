@@ -1,0 +1,27 @@
+.formInput {
+  display: flex;
+  width: 100%;
+  margin: 10px auto;
+  flex-direction: column;
+}
+
+.groupInputBox {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.rowFormInput {
+  display: flex;
+  width: 100%;
+  margin: 10px auto;
+  flex-direction: row;
+
+  input {
+    width: 20%;
+  }
+
+  label {
+    width: 80%;
+  }
+}

@@ -1,0 +1,54 @@
+@import "../../../styles/responsive.scss";
+@import "../../../styles/variables.scss";
+
+.ModeSelector {
+  width: 50%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.leftButton.active {
+  width: 50%;
+  padding: 10px 0;
+  background-color: $orange;
+  border: none;
+  border-radius: 10px 0px 0px 10px;
+  cursor: pointer;
+}
+
+.leftButton.inactive {
+  width: 50%;
+  padding: 10px 0;
+  background-color: lightgray;
+  border: none;
+  border-radius: 10px 0px 0px 10px;
+  cursor: pointer;
+}
+
+.rightButton.active {
+  width: 50%;
+  padding: 10px 0;
+  border: none;
+  border-radius: 0px 10px 10px 0px;
+  background-color: $darkRed;
+  cursor: pointer;
+}
+
+.rightButton.inactive {
+  width: 50%;
+  padding: 10px 0;
+  border: none;
+  border-radius: 0px 10px 10px 0px;
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+@include md {
+  .ModeSelector {
+    width: 30%;
+  }
+}

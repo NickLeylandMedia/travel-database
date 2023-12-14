@@ -12,10 +12,10 @@ import dotenv from "dotenv";
 import resTagRelRoutes from "./routes/joinRoutes/restaurants_tags_rel_route";
 import resTypeRelRoutes from "./routes/joinRoutes/restaurants_types_rel_route";
 //Standard Route Imports
-import restReviewRoutes from "./routes/restaurant_reviews_route";
+import restReviewRoutes from "./routes/restaurantReviewRoute";
 import restRoutes from "./routes/restaurantRoute";
-import resTagRoutes from "./routes/restaurant_tags_route";
-import resTypeRoutes from "./routes/restaurant_types_route";
+import resTagRoutes from "./routes/restaurantTagRoute";
+import resTypeRoutes from "./routes/restaurantTypeRoute";
 import mealRoutes from "./routes/meals_route";
 
 /* App Initialization */

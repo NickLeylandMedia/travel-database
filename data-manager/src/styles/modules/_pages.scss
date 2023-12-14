@@ -1,0 +1,45 @@
+@import "../responsive.scss";
+
+.page {
+  display: grid;
+  grid-template-rows: auto 3fr auto;
+  min-height: 100vh;
+}
+
+// .imagePage {
+//   display: grid;
+//   grid-template-rows: auto 3fr auto;
+//   min-height: 100vh;
+//   background-image: url(../../../public/layered-peaks-haikei.svg);
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: bottom -50px center;
+// }
+
+// .hero {
+//   height: 100vh;
+//   max-height: 100%;
+//   overflow: hidden;
+//   width: 100%;
+//   background-image: url(../../../public/layered-peaks-haikei.svg);
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: bottom -50px center;
+// }
+
+// .shortFooterHero {
+//   height: 100vh;
+//   max-height: 100%;
+//   overflow: hidden;
+//   width: 100%;
+//   background-image: url(../../../public/layered-peaks-haikei.svg);
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background-position: bottom -100px center;
+// }
+
+@include lg {
+  .hero {
+    background-position: bottom -100px center;
+  }
+}

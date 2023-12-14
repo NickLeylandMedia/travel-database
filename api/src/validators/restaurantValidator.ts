@@ -11,16 +11,17 @@ const restaurantSchema = {
     name: { type: "string" },
     city: { type: "string" },
     state: { type: "string" },
-    coord: { type: "string" },
-    description: { type: "string" },
-    picture: { type: "string" },
+    coord: { type: ["string", "null"] },
+    description: { type: ["string", "null"] },
+    picture: { type: ["string", "null"] },
     zip: { type: "string" },
-    address: { type: "string" },
+    address: { type: ["string", "null"] },
     active: { type: "boolean" },
     seasonal: { type: "boolean" },
-    month_closed_text: { type: "string" },
-    month_closed_numeric: { type: "integer" },
-    year_closed: { type: "integer" },
+    month_closed_text: { type: ["string", "null"] },
+    month_closed_numeric: { type: ["integer", "null"] },
+    year_closed: { type: ["integer", "null"] },
+    summary: { type: ["string", "null"] },
   },
   required: ["name", "city", "state", "zip", "active"],
   additionalProperties: false,
@@ -28,6 +29,7 @@ const restaurantSchema = {
 
 /* Validator Functions */
 function validateRestaurant(body: any) {
+  console.log({ body: body });
   //Validator
   const restaurantValidator = ajv.compile(restaurantSchema);
   //Validate

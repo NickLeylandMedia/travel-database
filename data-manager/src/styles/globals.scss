@@ -1,0 +1,19 @@
+//Import variables
+@use "variables" as *;
+//Import Modules
+@use "./modules/buttons";
+@use "./modules/cards";
+@use "./modules/forms";
+@use "./modules/inputs";
+@use "./modules/pages";
+@use "./modules/links";
+@use "./modules/overlays";
+@use "./modules/typography";
+
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: $background-light;
+  overflow-x: hidden;
+}

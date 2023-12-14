@@ -1,0 +1,28 @@
+{
+  "name": "data-manager",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "firebase": "^10.6.0",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-query": "^3.39.3",
+    "recoil": "^0.7.7",
+    "sass": "^1.69.5"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "typescript": "latest"
+  }
+}

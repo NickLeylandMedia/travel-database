@@ -1,0 +1,78 @@
+@import "../../../styles/responsive.scss";
+@import "../../../styles/variables.scss";
+@import "../../../styles/modules/inputs";
+@import "../../../styles/modules/buttons";
+
+.RestaurantEditor {
+  width: 90%;
+  margin: 0 auto;
+
+  input,
+  textarea {
+    @include whiteInputBlackOutline;
+    font-family: $font-tertiary;
+  }
+}
+
+// .groupInputBox {
+//   display: flex;
+//   flex-direction: column;
+//   margin: 0 auto;
+// }
+
+.detailMainImage {
+  width: 100%;
+  min-height: 250px;
+  object-fit: cover;
+}
+
+.groupTitleBox h1 {
+  text-align: center;
+}
+
+.imageInput {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  justify-content: center;
+  text-align: center;
+  margin: 10px auto;
+  font-size: large;
+
+  label {
+    margin-bottom: 10px;
+  }
+
+  input {
+    margin-bottom: 10px;
+  }
+}
+
+.imageUploadButton {
+  @include colorButton($blue);
+}
+
+.submitAllCont {
+  width: 100%;
+  margin: 10px auto;
+}
+
+.submitButton {
+  width: 100%;
+  margin: 0 auto;
+  background-color: red;
+  padding: 15px 40px;
+  border: none;
+}
+
+@include md {
+  .RestaurantEditor {
+    width: 70%;
+  }
+}
+
+@include lg {
+  .RestaurantEditor {
+    width: 30%;
+  }
+}

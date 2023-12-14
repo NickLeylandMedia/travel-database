@@ -1,0 +1,128 @@
+@import "../variables.scss";
+
+/* Header Styles */
+//Global Styles - Font Family
+.primary {
+  font-family: $font-primary;
+}
+
+.secondary {
+  font-family: $font-secondary;
+}
+
+.tertiary {
+  font-family: $font-tertiary;
+}
+
+//Global Styles - Font Color
+.dark {
+  color: black;
+}
+
+.light {
+  color: white;
+}
+
+//Global Styles - Font Weight
+.semiBold {
+  font-weight: 600;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+//General Header
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 20px 0;
+  padding: 0;
+}
+//Primary Header
+h1.primary,
+h2.primary,
+h3.primary,
+h4.primary,
+h5.primary,
+h6.primary {
+  font-weight: bold;
+}
+//Secondary Header
+h1.secondary,
+h2.secondary,
+h3.secondary,
+h4.secondary,
+h5.secondary,
+h6.secondary {
+  font-weight: 400;
+}
+
+//Font Sizes
+h1 {
+  font-size: $heading-1;
+}
+
+h2 {
+  font-size: $heading-2;
+}
+
+h3 {
+  font-size: $heading-3;
+}
+
+h4 {
+  font-size: $heading-4;
+}
+
+h5 {
+  font-size: $heading-5;
+}
+/* End Header Styles */
+/* Paragraph Styles */
+p {
+  margin: 15px 0;
+  padding: 0;
+  font-family: $font-tertiary;
+  font-size: $paragraph;
+}
+p.dark {
+  color: black;
+}
+p.light {
+  color: white;
+}
+/* End Paragraph Styles */
+/* Label Styles */
+label {
+  margin: 15px 0;
+  padding: 0;
+  font-family: $font-secondary;
+  font-size: $paragraph;
+}
+label.primary {
+  font-family: $font-primary;
+}
+/* End Label Styles */
+/* Link Styles */
+a {
+  font-family: $font-tertiary;
+  font-size: $paragraph;
+  text-decoration: none;
+}
+/* End Link Styles */
+
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}

@@ -1,0 +1,77 @@
+@import "../variables.scss";
+
+.fullWidthOrange {
+  background-color: $orange;
+  width: 100%;
+  padding: 13px 0;
+  margin: 5px auto;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 500ms ease-in-out;
+  display: block;
+}
+//Rounded Button
+@mixin roundedButton($color) {
+  background-color: $color;
+  margin: 5px auto;
+  padding: 13px 0;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 500ms ease-in-out;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: darken($color, 20%);
+    }
+  }
+}
+
+//Color Button
+@mixin colorButton($color) {
+  background-color: $color;
+  width: 80%;
+  margin: 5px auto;
+  padding: 13px 0;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 500ms ease-in-out;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: darken($color, 20%);
+    }
+  }
+}
+
+//Pagination Button
+@mixin paginationButton(
+  $bgColor,
+  $hoverBgColor,
+  $color,
+  $hoverColor,
+  $borderColor
+) {
+  display: inline-block;
+  margin: 0 10px;
+  font-size: 20px;
+  padding: 10px;
+  background-color: $bgColor;
+  background: $bgColor;
+  border: 2px solid $borderColor;
+  color: $color;
+  cursor: pointer;
+  transition: 500ms ease-in-out;
+
+  @media (hover: hover) {
+    &:hover {
+      color: $hoverColor;
+      background-color: $hoverBgColor;
+    }
+  }
+}

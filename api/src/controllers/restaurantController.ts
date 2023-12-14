@@ -21,7 +21,7 @@ const addRestaurant = async (
   try {
     //Add Item To db
     const query = await db.query(
-      "insert into restaurants (name, city, state, coord, description, picture, zip, address, active, seasonal, month_closed_text, month_closed_numeric, year_closed) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) returning *",
+      "insert into restaurants (name, city, state, coord, description, picture, zip, address, active, seasonal, month_closed_text, month_closed_numeric, year_closed, summary) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) returning *",
       [
         req.body.name,
         req.body.city,
@@ -36,6 +36,7 @@ const addRestaurant = async (
         req.body.month_closed_text,
         req.body.month_closed_numeric,
         req.body.year_closed,
+        req.body.summary,
       ]
     );
 
@@ -153,7 +154,7 @@ const modifyRestaurant = async (
   try {
     //Modify Item In db
     const query = await db.query(
-      "update restaurants set name = $1, city = $2, state = $3, coord = $4, description = $5, picture = $6, zip = $7, address = $8, active = $9, seasonal = $10, month_closed_text = $11, month_closed_numeric = $12, year_closed = $13, last_edited = $14 where id = $15 returning *",
+      "update restaurants set name = $1, city = $2, state = $3, coord = $4, description = $5, picture = $6, zip = $7, address = $8, active = $9, seasonal = $10, month_closed_text = $11, month_closed_numeric = $12, year_closed = $13, last_edited = $14, summary = $15 where id = $16 returning *",
       [
         req.body.name,
         req.body.city,
@@ -169,6 +170,7 @@ const modifyRestaurant = async (
         req.body.month_closed_numeric,
         req.body.year_closed,
         new Date(Date.now()).toISOString(),
+        req.body.summary,
         req.params.id,
       ]
     );

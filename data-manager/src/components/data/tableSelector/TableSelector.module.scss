@@ -1,0 +1,14 @@
+.TableSelector {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 20px auto;
+  width: 90%;
+}
+
+.tableOpt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
