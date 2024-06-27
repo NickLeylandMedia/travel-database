@@ -10,7 +10,9 @@ import { validateRestaurantTag } from "../validators/restaurantTagValidator";
 /* Controller Functions */
 //Add Item to Database
 const addResTag = async (req: Request, res: Response, next: NextFunction) => {
+  //Validate Request
   if (!validateRestaurantTag(req.body)) {
+    //Throw Error if Request is Invalid
     return res.json({
       Error: "Invalid request structure.",
     });
@@ -24,7 +26,7 @@ const addResTag = async (req: Request, res: Response, next: NextFunction) => {
     );
 
     //Success Result
-    return res.json({ message: "New Tag Added!", list: query.rows[0] });
+    return res.json({ message: "New tag added!", data: query.rows[0] });
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -32,13 +34,13 @@ const addResTag = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 //Delete All Items from Database
-const deleteAllResTag = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  return res.json({ message: "All items deleted" });
-};
+// const deleteAllResTag = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   return res.json({ message: "All items deleted" });
+// };
 
 //Delete One Item from Database
 const deleteOneResTag = async (
@@ -142,8 +144,27 @@ const modifyResTag = async (
     //Success Result
     return res.json({
       message: "Restaurant Tag Modified!",
-      restaurant_type: query.rows[0],
+      data: query.rows[0],
     });
+  } catch (err) {
+    //Throw Error
+    return res.json({ error: "Request Failed", info: err });
+  }
+};
+
+const getCurrentTags = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //Fetch Items From db
+    const results = await db.query(
+      `select restaurants_types_join.restaurant_type_id, restaurant_types.name from public.restaurants_types_join inner join public.restaurant_types on restaurants_types_join.restaurant_type_id=restaurant_types.id where (restaurants_types_join.restaurant_id=$1);`,
+      [req.params.id]
+    );
+    //Success Result
+    return res.status(200).json(results.rows);
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -154,9 +175,10 @@ const modifyResTag = async (
 /* Export Controller Functions */
 export default {
   addResTag,
-  deleteAllResTag,
+  // deleteAllResTag,
   deleteOneResTag,
   getAllResTags,
   getOneResTag,
   modifyResTag,
+  getCurrentTags,
 };

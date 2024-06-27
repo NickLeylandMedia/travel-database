@@ -5,22 +5,24 @@ import Ajv from "ajv";
 const ajv = new Ajv();
 
 //Schema
-const resTagRelSchema = {
+const mealSchema = {
   type: "object",
   properties: {
     restaurant_id: { type: "string" },
-    restaurant_tag_id: { type: "string" },
+    name: { type: "string" },
+    price: { type: ["string", "number"] },
+    description: { type: "string" },
   },
-  required: ["restaurant_id", "restaurant_tag_id"],
+  required: ["restaurant_id", "name", "price", "description"],
   additionalProperties: false,
 };
 
 /* Validator Functions */
-function validateResTagRel(body: any) {
+function validateMeal(body: any) {
   //Validator
-  const resTagRelValidator = ajv.compile(resTagRelSchema);
+  const mealValidator = ajv.compile(mealSchema);
   //Validate
-  const valid = resTagRelValidator(body);
+  const valid = mealValidator(body);
   //Function Returns
   if (valid) {
     return true;
@@ -31,4 +33,4 @@ function validateResTagRel(body: any) {
 }
 /* End Validator Functions */
 
-export { validateResTagRel };
+export { validateMeal };

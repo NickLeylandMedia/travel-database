@@ -361,6 +361,9 @@ const RestaurantEditor: React.FC<Props> = ({
               onChange={(e) => setYearClosedState(Number(e.target.value))}
             />
           </div>
+          <div className="typeInput">
+            <h2 className="primary">Edit Types</h2>
+          </div>
           {activeChanges ? (
             <div className={styles.submitAllCont}>
               <button

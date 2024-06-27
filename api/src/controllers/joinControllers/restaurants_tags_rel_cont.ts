@@ -5,10 +5,7 @@ import { Request, Response, NextFunction } from "express";
 import db from "../../db";
 
 //Import Validators
-import {
-  valAddResTagRel,
-  valModResTagRel,
-} from "../../validators/joinValidators/restaurants_tags_rel_val";
+import { validateResTagRel } from "../../validators/joinValidators/restaurants_tags_rel_val";
 
 /* Controller Functions */
 //Add Item to Database
@@ -17,7 +14,9 @@ const addResTagRel = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!valAddResTagRel(req.body)) {
+  //Validate Request
+  if (!validateResTagRel(req.body)) {
+    //Throw Error if Request is Invalid
     return res.json({
       error: "Invalid request structure.",
     });
@@ -27,16 +26,13 @@ const addResTagRel = async (
     //Add Item To db
     const query = await db.query(
       "insert into restaurants_tags_join (restaurant_id, restaurant_tag_id) values ($1, $2) returning *",
-      [
-        req.body.restaurant_id || "Not entered",
-        req.body.restaurant_tag_id || "Not entered",
-      ]
+      [req.body.restaurant_id, req.body.restaurant_tag_id]
     );
 
     //Success Result
     return res.json({
-      message: "New Restaurant-Tag Relationship Added!",
-      list: query.rows[0],
+      message: "New restaurant-tag relationship added!",
+      data: query.rows[0],
     });
   } catch (err) {
     //Throw Error
@@ -135,7 +131,7 @@ const modifyResTagRel = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!valModResTagRel(req.body)) {
+  if (!validateResTagRel(req.body)) {
     return res.json({
       Error: "Invalid request structure.",
     });

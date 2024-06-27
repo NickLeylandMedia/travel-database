@@ -13,11 +13,14 @@ const addRestaurant = async (
   res: Response,
   next: NextFunction
 ) => {
+  //Validate Request
   if (!validateRestaurant(req.body)) {
+    //Throw Error if Request is Invalid
     return res.json({
       error: "Invalid request structure.",
     });
   }
+
   try {
     //Add Item To db
     const query = await db.query(
@@ -42,8 +45,8 @@ const addRestaurant = async (
 
     //Success Result
     return res.json({
-      message: "Restaurant Added!",
-      restaurant: query.rows[0],
+      message: "New restaurant added!",
+      data: query.rows[0],
     });
   } catch (err) {
     //Throw Error
@@ -87,7 +90,7 @@ const deleteOneRestaurant = async (
     }
 
     //Success Result
-    return res.json({ message: "Restaurant Deleted", deleted: query.rows[0] });
+    return res.json({ message: "Restaurant Deleted", data: query.rows[0] });
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -145,12 +148,6 @@ const modifyRestaurant = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!validateRestaurant(req.body)) {
-    return res.json({
-      error: "Invalid request structure.",
-    });
-  }
-
   try {
     //Modify Item In db
     const query = await db.query(
@@ -176,8 +173,8 @@ const modifyRestaurant = async (
     );
     //Success Result
     return res.json({
-      message: "Restaurant Modified!",
-      restaurant: query.rows[0],
+      message: "Restaurant modified!",
+      data: query.rows[0],
     });
   } catch (err) {
     //Throw Error

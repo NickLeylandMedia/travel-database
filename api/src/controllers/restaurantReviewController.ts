@@ -14,7 +14,9 @@ const addResReview = async (
   res: Response,
   next: NextFunction
 ) => {
+  //Validate Request
   if (!validateRestaurantReview(req.body)) {
+    //Throw Error if Request is Invalid
     return res.json({
       Error: "Invalid request structure.",
     });
@@ -34,7 +36,7 @@ const addResReview = async (
     );
 
     //Success Result
-    return res.json({ message: "New Review Added!", review: query.rows[0] });
+    return res.json({ message: "New review added!", data: query.rows[0] });
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -72,7 +74,7 @@ const deleteOneResReview = async (
     //Success Result
     return res.json({
       message: "Restaurant Review Deleted",
-      deleted: query.rows[0],
+      data: query.rows[0],
     });
   } catch (err) {
     //Throw Error
@@ -90,8 +92,7 @@ const getAllResReviews = async (
     //Fetch Items From db
     const results = await db.query("select * from restaurant_reviews", "");
     //Success Result
-    res.status(200).json(results.rows);
-    return;
+    return res.status(200).json(results.rows);
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -132,12 +133,6 @@ const modifyResReview = async (
   res: Response,
   next: NextFunction
 ) => {
-  // if (!valModResReview(req.body)) {
-  //   return res.json({
-  //     Error: "Invalid request structure.",
-  //   });
-  // }
-
   try {
     //Modify Item In db
     const query = await db.query(
@@ -155,7 +150,7 @@ const modifyResReview = async (
     //Success Result
     return res.json({
       message: "Restaurant Review Modified!",
-      restaurant_review: query.rows[0],
+      data: query.rows[0],
     });
   } catch (err) {
     //Throw Error

@@ -12,8 +12,9 @@ const restaurantReviewSchema = {
     title: { type: "string" },
     content: { type: "string" },
     score10: { type: "number" },
+    date_visited: { type: "timestamp" },
   },
-  required: ["restaurant_id", "title", "content", "score10"],
+  required: ["restaurant_id", "title", "content", "score10", "date_visited"],
   additionalProperties: false,
 };
 

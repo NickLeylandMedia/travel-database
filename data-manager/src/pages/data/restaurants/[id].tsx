@@ -17,15 +17,18 @@ import {
   fetchAllRestaurants,
   fetchAllRestaurantTags,
   fetchAllRestaurantTypes,
+  fetchTypesByRestaurant,
 } from "@/modules/api";
 
 /* Component Interfaces */
 interface Props {
   restaurant: any;
+  namedTypes: any;
 }
 
 /* Component */
-const RestaurantDisp: React.FC<Props> = ({ restaurant }) => {
+const RestaurantDisp: React.FC<Props> = ({ restaurant, namedTypes }) => {
+  console.log({ namedTypes: namedTypes });
   /* State Variables */
   //Page Mode State
   const [pageMode, setPageMode] = useState<"view" | "edit">("view");
@@ -114,12 +117,14 @@ export async function getStaticProps(context: any) {
   const resTags = await fetchAllRestaurantTags();
   const resTypes = await fetchAllRestaurantTypes();
   const restaurant = await fetchOneRestaurant(context.params.id);
+  const namedTypes = await fetchTypesByRestaurant(context.params.id);
 
   return {
     props: {
       restaurant,
       resTags,
       resTypes,
+      namedTypes,
     },
     revalidate: 10,
   };

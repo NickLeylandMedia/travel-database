@@ -11,9 +11,9 @@ const DBCONN = process.env.DB_CONNECTION_URL;
 
 //Local DB Connection
 // const pool = new Pool({
-//   user: "postgres",
+//   user: "",
 //   host: "localhost",
-//   database: "travelData",
+//   database: "",
 //   password: "",
 //   port: 5432,
 // });

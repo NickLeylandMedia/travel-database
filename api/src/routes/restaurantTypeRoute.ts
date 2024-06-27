@@ -12,6 +12,8 @@ router.delete("/api/restypes/:id", resTypeController.deleteOneType);
 
 router.get("/api/restypes", resTypeController.getAllResTypes);
 
+router.get("/api/restypes/restaurant/:id", resTypeController.getCurrentTypes);
+
 router.get("/api/restypes/:id", resTypeController.getOneResType);
 
 router.put("/api/restypes/:id", resTypeController.modifyResType);

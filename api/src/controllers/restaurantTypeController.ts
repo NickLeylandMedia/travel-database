@@ -7,7 +7,9 @@ import db from "../db";
 import { validateRestaurantType } from "../validators/restaurantTypeValidator";
 
 const addType = async (req: Request, res: Response, next: NextFunction) => {
+  //Validate Request
   if (!validateRestaurantType(req.body)) {
+    //Throw Error if Request is Invalid
     return res.json({
       error: "Invalid request structure.",
     });
@@ -21,7 +23,7 @@ const addType = async (req: Request, res: Response, next: NextFunction) => {
     );
 
     //Success Result
-    return res.json({ message: "New Type Added!", list: query.rows[0] });
+    return res.json({ message: "New type added!", data: query.rows[0] });
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -129,10 +131,30 @@ const modifyResType = async (
   }
 };
 
+const getCurrentTypes = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //Fetch Items From db
+    const results = await db.query(
+      `select restaurants_types_join.restaurant_type_id, restaurant_types.name from public.restaurants_types_join inner join public.restaurant_types on restaurants_types_join.restaurant_type_id=restaurant_types.id where (restaurants_types_join.restaurant_id=$1);`,
+      [req.params.id]
+    );
+    //Success Result
+    return res.status(200).json(results.rows);
+  } catch (err) {
+    //Throw Error
+    return res.json({ error: "Request Failed", info: err });
+  }
+};
+
 export default {
   addType,
   deleteOneType,
   getAllResTypes,
   modifyResType,
   getOneResType,
+  getCurrentTypes,
 };

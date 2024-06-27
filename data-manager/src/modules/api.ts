@@ -22,6 +22,13 @@ function fetchAllRestaurantTags() {
 function fetchAllRestaurantTypes() {
   return fetch("http://localhost:3008/api/restypes").then((res) => res.json());
 }
+
+//Types By Restaurant
+function fetchTypesByRestaurant(id: string) {
+  return fetch(`http://localhost:3008/api/restypes/restaurant/${id}`).then(
+    (res) => res.json()
+  );
+}
 /* END GET REQUESTS */
 
 /* POST REQUESTS */
@@ -152,6 +159,7 @@ export {
   fetchOneRestaurant,
   fetchAllRestaurantTags,
   fetchAllRestaurantTypes,
+  fetchTypesByRestaurant,
   postNewRestaurant,
   postNewRestaurantTagRel,
   postNewRestaurantTypeRel,

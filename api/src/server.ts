@@ -45,6 +45,6 @@ app.use("/", resTagRoutes);
 app.use("/", resTypeRoutes);
 
 /* App Listener */
-app.listen(PORT, "127.0.0.1", () => {
+app.listen(PORT, () => {
   console.log(`Server initialized and running on port ${PORT}`);
 });

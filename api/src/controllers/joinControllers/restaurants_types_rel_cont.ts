@@ -5,10 +5,7 @@ import { Request, Response, NextFunction } from "express";
 import db from "../../db";
 
 //Import Validators
-import {
-  valAddResTypeRel,
-  valModResTypeRel,
-} from "../../validators/joinValidators/restaurants_types_rel_val";
+import { validateResTypeRel } from "../../validators/joinValidators/restaurants_types_rel_val";
 
 /* Controller Functions */
 //Add Item to Database
@@ -17,7 +14,9 @@ const addResTypeRel = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!valAddResTypeRel(req.body)) {
+  //Validate Request
+  if (!validateResTypeRel(req.body)) {
+    //Throw Error if Request is Invalid
     return res.json({
       error: "Invalid request structure.",
     });
@@ -27,16 +26,13 @@ const addResTypeRel = async (
     //Add Item To db
     const query = await db.query(
       "insert into restaurants_types_join (restaurant_id, restaurant_type_id) values ($1, $2) returning *",
-      [
-        req.body.restaurant_id || "Not entered",
-        req.body.restaurant_type_id || "Not entered",
-      ]
+      [req.body.restaurant_id, req.body.restaurant_type_id]
     );
 
     //Success Result
     return res.json({
-      message: "New Restaurant-Type Relationship Added!",
-      list: query.rows[0],
+      message: "New restaurant-type relationship added!",
+      data: query.rows[0],
     });
   } catch (err) {
     //Throw Error
@@ -135,7 +131,7 @@ const modifyResTypeRel = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!valModResTypeRel(req.body)) {
+  if (!validateResTypeRel(req.body)) {
     return res.json({
       Error: "Invalid request structure.",
     });

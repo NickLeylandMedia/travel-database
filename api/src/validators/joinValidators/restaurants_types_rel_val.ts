@@ -1,27 +1,34 @@
-//Import Validator
-import { Validator, DetailedValue } from "node-data-validator";
+//Import Statements
+import Ajv from "ajv";
 
-//Validate 'Add Item' Request
-const valAddResTypeRel = (req: any) => {
-  //Validator Data Model
-  const model = {
-    restaurant_id: new DetailedValue(String, { required: true }),
-    restaurant_type_id: new DetailedValue(String, { required: true }),
-  };
+//Variable Declarations
+const ajv = new Ajv();
 
-  //Validation Check
-  return Validator(req, model);
+//Schema
+const resTypeRelSchema = {
+  type: "object",
+  properties: {
+    restaurant_id: { type: "string" },
+    restaurant_type_id: { type: "string" },
+  },
+  required: ["restaurant_id", "restaurant_type_id"],
+  additionalProperties: false,
 };
 
-//Validate 'Modify Item' Request
-const valModResTypeRel = (req: any) => {
-  //Validator Data Model
-  const model = {
-    restaurant_id: new DetailedValue(String, { required: true }),
-    restaurant_type_id: new DetailedValue(String, { required: true }),
-  };
-  //Validation Check
-  return Validator(req, model);
-};
+/* Validator Functions */
+function validateResTypeRel(body: any) {
+  //Validator
+  const resTypeRelValidator = ajv.compile(resTypeRelSchema);
+  //Validate
+  const valid = resTypeRelValidator(body);
+  //Function Returns
+  if (valid) {
+    return true;
+  }
+  if (!valid) {
+    return false;
+  }
+}
+/* End Validator Functions */
 
-export { valAddResTypeRel, valModResTypeRel };
+export { validateResTypeRel };

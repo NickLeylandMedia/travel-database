@@ -15,6 +15,8 @@ router.delete("/api/restags/:id", resTagController.deleteOneResTag);
 router.get("/api/restags", resTagController.getAllResTags);
 //Route for getting a single item
 router.get("/api/restags/:id", resTagController.getOneResTag);
+//Route for getting all items for a single restaurant
+router.get("/api/restags/restaurant/:id", resTagController.getCurrentTags);
 //Route for modifying a single item
 router.put("/api/restags/:id", resTagController.modifyResTag);
 /* End Routes */
