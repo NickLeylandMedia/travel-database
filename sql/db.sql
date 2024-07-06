@@ -1,3 +1,22 @@
+-- public.meal_reviews definition
+
+-- Drop table
+
+-- DROP TABLE public.meal_reviews;
+
+CREATE TABLE public.meal_reviews (
+	id UUID NOT NULL DEFAULT gen_random_uuid(),
+	posted_on TIMESTAMP NOT NULL DEFAULT now():::TIMESTAMP,
+	last_edited TIMESTAMP NOT NULL DEFAULT now():::TIMESTAMP,
+	title VARCHAR NOT NULL,
+	content VARCHAR NOT NULL,
+	score10 DECIMAL NOT NULL,
+	date_eaten VARCHAR NULL,
+	rowid INT8 NOT VISIBLE NOT NULL DEFAULT unique_rowid(),
+	CONSTRAINT meal_reviews_pkey PRIMARY KEY (rowid ASC)
+);
+
+
 -- public.meals definition
 
 -- Drop table
@@ -10,7 +29,10 @@ CREATE TABLE public.meals (
 	description VARCHAR NULL,
 	posted_on TIMESTAMP NOT NULL DEFAULT now():::TIMESTAMP,
 	last_edited TIMESTAMP NOT NULL DEFAULT now():::TIMESTAMP,
-	CONSTRAINT meals_pk PRIMARY KEY (id ASC)
+	restaurant_id UUID NOT NULL,
+	price DECIMAL NULL,
+	CONSTRAINT meals_pk PRIMARY KEY (id ASC),
+	UNIQUE INDEX meals_un (restaurant_id ASC, name ASC)
 );
 
 
@@ -127,4 +149,24 @@ CREATE TABLE public.restaurants_types_join (
 	last_edited TIMESTAMP NOT NULL DEFAULT now():::TIMESTAMP,
 	CONSTRAINT restaurants_types_join_pk PRIMARY KEY (id ASC),
 	UNIQUE INDEX restaurants_types_join_un (restaurant_id ASC, restaurant_type_id ASC)
+);
+
+
+-- public.log definition
+
+-- Drop table
+
+-- DROP TABLE public.log;
+
+CREATE TABLE public.log (
+	id UUID NOT NULL DEFAULT gen_random_uuid(),
+	posted_on TIMESTAMP NOT NULL DEFAULT now():::TIMESTAMP,
+	last_edited TIMESTAMP NOT NULL DEFAULT now():::TIMESTAMP,
+	rowid INT8 NOT VISIBLE NOT NULL DEFAULT unique_rowid(),
+	event_type VARCHAR NOT NULL,
+	message VARCHAR NOT NULL,
+	level VARCHAR NULL,
+	request JSONB NOT NULL,
+	response JSONB NOT NULL,
+	CONSTRAINT log_pkey PRIMARY KEY (rowid ASC)
 );

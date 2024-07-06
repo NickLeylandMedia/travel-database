@@ -7,6 +7,9 @@ import db from "../../db";
 //Import Validators
 import { validateResTypeRel } from "../../validators/joinValidators/restaurants_types_rel_val";
 
+//Import Logger
+import log from "../local/logController";
+
 /* Controller Functions */
 //Add Item to Database
 const addResTypeRel = async (
@@ -16,6 +19,13 @@ const addResTypeRel = async (
 ) => {
   //Validate Request
   if (!validateResTypeRel(req.body)) {
+    log.addLogItem(
+      "CREATE",
+      "Failed to add new restaurant-type relationship.",
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify("Invalid request structure.")
+    );
     //Throw Error if Request is Invalid
     return res.json({
       error: "Invalid request structure.",
@@ -30,6 +40,14 @@ const addResTypeRel = async (
     );
 
     //Success Result
+    log.addLogItem(
+      "CREATE",
+      "New restaurant-type relationship added.",
+      "SUCCESS",
+      JSON.stringify(req.body),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({
       message: "New restaurant-type relationship added!",
       data: query.rows[0],
@@ -64,11 +82,27 @@ const deleteOneResTypeRel = async (
 
     //Verify that requested data exists
     if (query.rowCount === 0) {
+      log.addLogItem(
+        "DELETE",
+        "Failed to delete restaurant-type relationship.",
+        "ERROR",
+        JSON.stringify(req.params.id),
+        JSON.stringify("Invalid ID")
+      );
+
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
     //Success Result
+    log.addLogItem(
+      "DELETE",
+      "Restaurant - Type Relationship Deleted",
+      "SUCCESS",
+      JSON.stringify(req.params.id),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({
       message: "Restaurant - Type Relationship Deleted",
       deleted: query.rows[0],
@@ -89,8 +123,14 @@ const getAllResTypeRels = async (
     //Fetch Items From db
     const results = await db.query("select * from restaurants_types_join", "");
     //Success Result
-    res.status(200).json(results.rows);
-    return;
+    log.addLogItem(
+      "READ",
+      "All restaurant-type relationships retrieved.",
+      "SUCCESS",
+      JSON.stringify("N/A"),
+      JSON.stringify(results.rows)
+    );
+    return res.status(200).json(results.rows);
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -112,13 +152,27 @@ const getOneResTypeRel = async (
 
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
+      log.addLogItem(
+        "READ",
+        "Failed to retrieve restaurant-type relationship.",
+        "ERROR",
+        JSON.stringify(req.params.id),
+        JSON.stringify("Invalid ID")
+      );
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
     //Success Result
-    res.status(200).json(result.rows[0]);
-    return;
+    log.addLogItem(
+      "READ",
+      "Restaurant - Type Relationship Retrieved",
+      "SUCCESS",
+      JSON.stringify(req.params.id),
+      JSON.stringify(result.rows[0])
+    );
+
+    return res.status(200).json(result.rows[0]);
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -132,6 +186,15 @@ const modifyResTypeRel = async (
   next: NextFunction
 ) => {
   if (!validateResTypeRel(req.body)) {
+    log.addLogItem(
+      "UPDATE",
+      "Failed to modify restaurant-type relationship.",
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify("Invalid request structure.")
+    );
+
+    //Throw Error if Request is Invalid
     return res.json({
       Error: "Invalid request structure.",
     });
@@ -149,11 +212,25 @@ const modifyResTypeRel = async (
       ]
     );
     //Success Result
+    log.addLogItem(
+      "UPDATE",
+      "Restaurant - Type Relationship Modified",
+      "INFO",
+      JSON.stringify(req.body),
+      JSON.stringify(query.rows[0])
+    );
     return res.json({
       message: "Restaurant - Type Relationship Modified!",
-      restaurant_type: query.rows[0],
+      relationship: query.rows[0],
     });
   } catch (err) {
+    log.addLogItem(
+      "UPDATE",
+      "Failed to modify restaurant-type relationship.",
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify(err)
+    );
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }

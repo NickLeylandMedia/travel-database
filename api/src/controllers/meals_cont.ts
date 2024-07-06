@@ -7,11 +7,22 @@ import db from "../db";
 /* Import Validator Functions */
 import { validateMeal } from "../validators/mealValidator";
 
+/* Import Logger */
+import log from "./local/logController";
+
 /* Controller Functions */
 //Add Item to Database
 const addMeal = async (req: Request, res: Response, next: NextFunction) => {
   //Validate Request
   if (!validateMeal(req.body)) {
+    log.addLogItem(
+      "CREATE",
+      "Failed to add new meal.",
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify("Invalid request structure.")
+    );
+
     //Throw Error if Request is Invalid
     return res.json({ error: "Invalid request structure." });
   }
@@ -29,11 +40,27 @@ const addMeal = async (req: Request, res: Response, next: NextFunction) => {
     );
 
     //Success Result
+    log.addLogItem(
+      "CREATE",
+      "New meal added.",
+      "INFO",
+      JSON.stringify(req.body),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({
       message: "New meal added!",
       data: query.rows[0],
     });
   } catch (err) {
+    log.addLogItem(
+      "CREATE",
+      "Failed to add new meal.",
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -49,8 +76,24 @@ const deleteAllMeals = async (
     const query = db.query("truncate meals", []);
 
     //Success Result
+    log.addLogItem(
+      "DELETE",
+      "Deleted all meals.",
+      "INFO",
+      JSON.stringify({ Nukeit: "From Orbit" }),
+      JSON.stringify("All meals deleted! :(")
+    );
+
     return res.json({ message: "All meals deleted! :(" });
   } catch (err) {
+    log.addLogItem(
+      "DELETE",
+      "Failed to delete all meals.",
+      "ERROR",
+      JSON.stringify({ OhNo: "Oopsie Doopsie" }),
+      JSON.stringify(err)
+    );
+
     return res.json({ error: "Request Failed", info: err });
   }
 };
@@ -70,13 +113,36 @@ const deleteOneMeal = async (
 
     //Verify that requested data exists
     if (query.rowCount === 0) {
+      log.addLogItem(
+        "DELETE",
+        `Failed to delete meal with id ${req.params.id}.`,
+        "ERROR",
+        JSON.stringify(req.params.id),
+        JSON.stringify("Invalid ID")
+      );
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
     //Success Result
+    log.addLogItem(
+      "DELETE",
+      `Meal with id ${req.params.id} deleted.`,
+      "INFO",
+      JSON.stringify(req.params.id),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({ message: "Meal deleted.", data: query.rows[0] });
   } catch (err) {
+    log.addLogItem(
+      "DELETE",
+      `Failed to delete meal with id ${req.params.id}.`,
+      "ERROR",
+      JSON.stringify(req.params.id),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -88,9 +154,24 @@ const getAllMeals = async (req: Request, res: Response, next: NextFunction) => {
     //Fetch Items From db
     const results = await db.query("select * from meals", "");
     //Success Result
-    res.status(200).json(results.rows);
-    return;
+    log.addLogItem(
+      "READ",
+      "Retrieved all meals.",
+      "INFO",
+      JSON.stringify({ gottaCatch: "Em All" }),
+      JSON.stringify(results.rows)
+    );
+
+    return res.status(200).json(results.rows);
   } catch (err) {
+    log.addLogItem(
+      "READ",
+      "Failed to retrieve all meals.",
+      "ERROR",
+      JSON.stringify({ gottaCatch: "Em All" }),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -106,6 +187,13 @@ const getOneMeal = async (req: Request, res: Response, next: NextFunction) => {
 
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
+      log.addLogItem(
+        "READ",
+        `Failed to retrieve meal with id ${req.params.id}.`,
+        "ERROR",
+        JSON.stringify(req.params.id),
+        JSON.stringify("Invalid ID")
+      );
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
@@ -135,11 +223,27 @@ const modifyMeal = async (req: Request, res: Response, next: NextFunction) => {
     );
 
     //Success Result
+    log.addLogItem(
+      "UPDATE",
+      `Meal with id ${req.params.id} modified.`,
+      "INFO",
+      JSON.stringify(req.body),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({
-      message: "Restaurant modified!",
+      message: "Meal modified!",
       data: query.rows[0],
     });
   } catch (err) {
+    log.addLogItem(
+      "UPDATE",
+      `Failed to modify meal with id ${req.params.id}.`,
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }

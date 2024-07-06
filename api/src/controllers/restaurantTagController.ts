@@ -7,11 +7,22 @@ import db from "../db";
 //Import Validators
 import { validateRestaurantTag } from "../validators/restaurantTagValidator";
 
+//Import Logger
+import log from "./local/logController";
+
 /* Controller Functions */
 //Add Item to Database
 const addResTag = async (req: Request, res: Response, next: NextFunction) => {
   //Validate Request
   if (!validateRestaurantTag(req.body)) {
+    log.addLogItem(
+      "CREATE",
+      "Failed to add new restaurant tag.",
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify("Invalid request structure.")
+    );
+
     //Throw Error if Request is Invalid
     return res.json({
       Error: "Invalid request structure.",
@@ -26,6 +37,14 @@ const addResTag = async (req: Request, res: Response, next: NextFunction) => {
     );
 
     //Success Result
+    log.addLogItem(
+      "CREATE",
+      "New restaurant tag added.",
+      "INFO",
+      JSON.stringify(req.body),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({ message: "New tag added!", data: query.rows[0] });
   } catch (err) {
     //Throw Error
@@ -33,14 +52,42 @@ const addResTag = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-//Delete All Items from Database
-// const deleteAllResTag = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   return res.json({ message: "All items deleted" });
-// };
+// Delete All Items from Database
+const deleteAllResTags = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //Delete All Items From db
+    const query = await db.query("truncate restaurant_tags", []);
+
+    //Success Result
+    log.addLogItem(
+      "DELETE",
+      "All restaurant tags deleted.",
+      "INFO",
+      JSON.stringify("All gone now."),
+      JSON.stringify({ message: "All Restaurant Tags Deleted" })
+    );
+
+    return res.json({
+      message: "All Restaurant Tags Deleted",
+      deleted: query.rows,
+    });
+  } catch (err) {
+    log.addLogItem(
+      "DELETE",
+      "Failed to delete all restaurant tags.",
+      "ERROR",
+      JSON.stringify("All gone now."),
+      JSON.stringify(err)
+    );
+
+    //Throw Error
+    return res.json({ error: "Request Failed", info: err });
+  }
+};
 
 //Delete One Item from Database
 const deleteOneResTag = async (
@@ -57,11 +104,27 @@ const deleteOneResTag = async (
 
     //Verify that requested data exists
     if (query.rowCount === 0) {
+      log.addLogItem(
+        "DELETE",
+        "Failed to delete restaurant tag.",
+        "ERROR",
+        JSON.stringify(req.params.id),
+        JSON.stringify("Invalid ID")
+      );
+
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
     //Success Result
+    log.addLogItem(
+      "DELETE",
+      "Restaurant tag deleted.",
+      "INFO",
+      JSON.stringify(req.params.id),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({
       message: "Restaurant Tag Deleted",
       deleted: query.rows[0],
@@ -82,8 +145,15 @@ const getAllResTags = async (
     //Fetch Items From db
     const results = await db.query("select * from restaurant_tags", "");
     //Success Result
-    res.status(200).json(results.rows);
-    return;
+    log.addLogItem(
+      "READ",
+      "All restaurant tags fetched.",
+      "INFO",
+      JSON.stringify("All of them."),
+      JSON.stringify(results.rows)
+    );
+
+    return res.status(200).json(results.rows);
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -105,13 +175,28 @@ const getOneResTag = async (
 
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
+      log.addLogItem(
+        "READ",
+        "Failed to fetch restaurant tag.",
+        "ERROR",
+        JSON.stringify(req.params.id),
+        JSON.stringify("Invalid ID")
+      );
+
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
     //Success Result
-    res.status(200).json(result.rows[0]);
-    return;
+    log.addLogItem(
+      "READ",
+      "Restaurant tag fetched.",
+      "INFO",
+      JSON.stringify(req.params.id),
+      JSON.stringify(result.rows[0])
+    );
+
+    return res.status(200).json(result.rows[0]);
   } catch (err) {
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
@@ -125,6 +210,14 @@ const modifyResTag = async (
   next: NextFunction
 ) => {
   if (!validateRestaurantTag(req.body)) {
+    log.addLogItem(
+      "UPDATE",
+      "Failed to modify restaurant tag.",
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify("Invalid request structure.")
+    );
+
     return res.json({
       Error: "Invalid request structure.",
     });
@@ -142,11 +235,27 @@ const modifyResTag = async (
       ]
     );
     //Success Result
+    log.addLogItem(
+      "UPDATE",
+      "Restaurant tag modified.",
+      "INFO",
+      JSON.stringify(req.body),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({
       message: "Restaurant Tag Modified!",
       data: query.rows[0],
     });
   } catch (err) {
+    log.addLogItem(
+      "UPDATE",
+      "Failed to modify restaurant tag.",
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -164,8 +273,24 @@ const getCurrentTags = async (
       [req.params.id]
     );
     //Success Result
+    log.addLogItem(
+      "READ",
+      `All tags fetched for restaurant with ID ${req.params.id}.`,
+      "INFO",
+      JSON.stringify(req.params.id),
+      JSON.stringify(results.rows)
+    );
+
     return res.status(200).json(results.rows);
   } catch (err) {
+    log.addLogItem(
+      "READ",
+      `Failed to fetch tags for restaurant with ID ${req.params.id}.`,
+      "ERROR",
+      JSON.stringify(req.params.id),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -175,7 +300,7 @@ const getCurrentTags = async (
 /* Export Controller Functions */
 export default {
   addResTag,
-  // deleteAllResTag,
+  deleteAllResTags,
   deleteOneResTag,
   getAllResTags,
   getOneResTag,

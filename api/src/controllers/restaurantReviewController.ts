@@ -7,6 +7,9 @@ import db from "../db";
 //Import Validators
 import { validateRestaurantReview } from "../validators/restaurantReviewValidator";
 
+//Import Logger
+import log from "./local/logController";
+
 /* Controller Functions */
 //Add Item to Database
 const addResReview = async (
@@ -16,6 +19,14 @@ const addResReview = async (
 ) => {
   //Validate Request
   if (!validateRestaurantReview(req.body)) {
+    log.addLogItem(
+      "CREATE",
+      "Failed to add new restaurant review.",
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify("Invalid request structure.")
+    );
+
     //Throw Error if Request is Invalid
     return res.json({
       Error: "Invalid request structure.",
@@ -36,6 +47,14 @@ const addResReview = async (
     );
 
     //Success Result
+    log.addLogItem(
+      "CREATE",
+      "New restaurant review added.",
+      "INFO",
+      JSON.stringify(req.body),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({ message: "New review added!", data: query.rows[0] });
   } catch (err) {
     //Throw Error
@@ -43,14 +62,42 @@ const addResReview = async (
   }
 };
 
-//Delete All Items from Database
-// const deleteAllResReviews = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   return res.json({ message: "All items deleted" });
-// };
+// Delete All Items from Database
+const deleteAllResReviews = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //Delete All Items From db
+    const query = await db.query("truncate restaurant_reviews", []);
+
+    //Success Result
+    log.addLogItem(
+      "DELETE",
+      "All restaurant reviews deleted.",
+      "INFO",
+      JSON.stringify("SHEGONE"),
+      JSON.stringify({ message: "All Restaurant Reviews Deleted" })
+    );
+
+    return res.json({
+      message: "All Restaurant Reviews Deleted",
+      data: query.rows,
+    });
+  } catch (err) {
+    log.addLogItem(
+      "DELETE",
+      "Failed to delete all restaurant reviews.",
+      "ERROR",
+      JSON.stringify("OHNO"),
+      JSON.stringify(err)
+    );
+
+    //Throw Error
+    return res.json({ error: "Request Failed", info: err });
+  }
+};
 
 //Delete One Item from Database
 const deleteOneResReview = async (
@@ -67,16 +114,40 @@ const deleteOneResReview = async (
 
     //Verify that requested data exists
     if (query.rowCount === 0) {
+      log.addLogItem(
+        "DELETE",
+        "Failed to delete restaurant review.",
+        "ERROR",
+        JSON.stringify(req.params.id),
+        JSON.stringify("Invalid ID")
+      );
+
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
     //Success Result
+    log.addLogItem(
+      "DELETE",
+      "Restaurant Review Deleted.",
+      "INFO",
+      JSON.stringify(req.params.id),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({
       message: "Restaurant Review Deleted",
       data: query.rows[0],
     });
   } catch (err) {
+    log.addLogItem(
+      "DELETE",
+      "Failed to delete restaurant review.",
+      "ERROR",
+      JSON.stringify(req.params.id),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -92,8 +163,24 @@ const getAllResReviews = async (
     //Fetch Items From db
     const results = await db.query("select * from restaurant_reviews", "");
     //Success Result
+    log.addLogItem(
+      "READ",
+      "All restaurant reviews fetched.",
+      "INFO",
+      JSON.stringify(""),
+      JSON.stringify(results.rows)
+    );
+
     return res.status(200).json(results.rows);
   } catch (err) {
+    log.addLogItem(
+      "READ",
+      "Failed to fetch all restaurant reviews.",
+      "ERROR",
+      JSON.stringify(""),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -114,14 +201,37 @@ const getOneResReview = async (
 
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
+      log.addLogItem(
+        "READ",
+        "Failed to fetch restaurant review.",
+        "ERROR",
+        JSON.stringify(req.params.id),
+        JSON.stringify("Invalid ID")
+      );
+
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
     //Success Result
-    res.status(200).json(result.rows[0]);
-    return;
+    log.addLogItem(
+      "READ",
+      "Restaurant review fetched.",
+      "INFO",
+      JSON.stringify(req.params.id),
+      JSON.stringify(result.rows[0])
+    );
+
+    return res.status(200).json(result.rows[0]);
   } catch (err) {
+    log.addLogItem(
+      "READ",
+      "Failed to fetch restaurant review.",
+      "ERROR",
+      JSON.stringify(req.params.id),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -148,11 +258,27 @@ const modifyResReview = async (
       ]
     );
     //Success Result
+    log.addLogItem(
+      "UPDATE",
+      `Restaurant Review with id ${req.params.id} modified.`,
+      "INFO",
+      JSON.stringify(req.body),
+      JSON.stringify(query.rows[0])
+    );
+
     return res.json({
       message: "Restaurant Review Modified!",
       data: query.rows[0],
     });
   } catch (err) {
+    log.addLogItem(
+      "UPDATE",
+      `Failed to modify restaurant review with id ${req.params.id}.`,
+      "ERROR",
+      JSON.stringify(req.body),
+      JSON.stringify(err)
+    );
+
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -162,7 +288,7 @@ const modifyResReview = async (
 /* Export Controller Functions */
 export default {
   addResReview,
-  // deleteAllResReviews,
+  deleteAllResReviews,
   deleteOneResReview,
   getAllResReviews,
   getOneResReview,

@@ -27,6 +27,9 @@ dotenv.config();
 /* Env Variables */
 const PORT: any = process.env.PORT || 3042;
 
+/* Logger Initialization */
+import log from "./controllers/local/logController";
+
 /* Middleware Initialization */
 //CORS
 app.use(cors());
@@ -46,5 +49,12 @@ app.use("/", resTypeRoutes);
 
 /* App Listener */
 app.listen(PORT, () => {
+  log.addLogItem(
+    "SYSTEM",
+    "Server Initialized",
+    "INFO",
+    JSON.stringify(""),
+    JSON.stringify("")
+  );
   console.log(`Server initialized and running on port ${PORT}`);
 });

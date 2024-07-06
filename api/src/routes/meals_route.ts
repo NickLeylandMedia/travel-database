@@ -11,6 +11,8 @@ const router = express.Router();
 router.post("/api/meals", mealController.addMeal);
 //Route for deleting a single item
 router.delete("/api/meals/:id", mealController.deleteOneMeal);
+//Route for deleting all items
+router.delete("/api/meals", mealController.deleteAllMeals);
 //Route for getting all items
 router.get("/api/meals", mealController.getAllMeals);
 //Route for getting a single item
