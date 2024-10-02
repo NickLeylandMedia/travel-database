@@ -7,7 +7,7 @@ import db from "../db";
 import { validateRestaurant } from "../validators/restaurantValidator";
 
 //Import Logger
-import log from "./local/logController";
+import logger from "./utility/logController";
 
 /* Controller Functions */
 //Add Item to Database
@@ -18,14 +18,8 @@ const addRestaurant = async (
 ) => {
   //Validate Request
   if (!validateRestaurant(req.body)) {
-    log.addLogItem(
-      "CREATE",
-      "Failed to add new restaurant.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify("Invalid request structure.")
-    );
-
+    //Log Error
+    logger.error("Invalid request structure.");
     //Throw Error if Request is Invalid
     return res.json({
       error: "Invalid request structure.",
@@ -53,29 +47,20 @@ const addRestaurant = async (
         req.body.summary,
       ]
     );
-
-    //Success Result
-    log.addLogItem(
-      "CREATE",
-      "New restaurant added.",
-      "INFO",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`New restaurant added: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "New restaurant added!",
       data: query.rows[0],
     });
   } catch (err) {
-    log.addLogItem(
-      "CREATE",
-      "Failed to add new restaurant.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -89,26 +74,16 @@ const deleteAllRestaurants = (
 ) => {
   try {
     const query = db.query("truncate restaurants", []);
-
-    //Success Result
-    log.addLogItem(
-      "DELETE",
-      "All restaurants deleted.",
-      "INFO",
-      JSON.stringify("SHEGONE"),
-      JSON.stringify({ message: "All Restaurants deleted" })
-    );
-
-    return res.json({ message: "All Restaurants deleted" });
+    //Log Success Result
+    logger.warning("All restaurants deleted!");
+    //Return Success Result
+    return res.json({ message: "All Restaurants deleted!" });
   } catch (err) {
-    log.addLogItem(
-      "DELETE",
-      "Failed to delete all restaurants.",
-      "ERROR",
-      JSON.stringify("OHNO"),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
+    //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
 };
@@ -128,29 +103,23 @@ const deleteOneRestaurant = async (
 
     //Verify that requested data exists
     if (query.rowCount === 0) {
-      log.addLogItem(
-        "DELETE",
-        "Failed to delete restaurant.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
-      );
-
+      //Log Error
+      logger.error("Invalid ID, restaurant does not exist.");
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
-    //Success Result
-    log.addLogItem(
-      "DELETE",
-      "Restaurant Deleted.",
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.warning(`Restaurant deleted: ${dataString}`);
+    //Return Success Result
     return res.json({ message: "Restaurant Deleted", data: query.rows[0] });
   } catch (err) {
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -165,26 +134,15 @@ const getAllRestaurants = async (
   try {
     //Fetch Items From db
     const results = await db.query("select * from restaurants", "");
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "All restaurants fetched.",
-      "INFO",
-      JSON.stringify(""),
-      JSON.stringify(results.rows)
-    );
-
-    res.status(200).json(results.rows);
-    return;
+    //Log Success Result
+    logger.info("All restaurants fetched.");
+    //Return Success Result
+    return res.status(200).json(results.rows);
   } catch (err) {
-    log.addLogItem(
-      "READ",
-      "Failed to fetch all restaurants.",
-      "ERROR",
-      JSON.stringify(""),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -201,40 +159,24 @@ const getOneRestaurant = async (
     const result = await db.query("select * from restaurants where id = $1", [
       req.params.id,
     ]);
-
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
-      log.addLogItem(
-        "READ",
-        "Failed to fetch restaurant.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
-      );
-
+      //Log Error
+      logger.error("Invalid ID, restaurant does not exist.");
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
-
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "Restaurant fetched.",
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(result.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(result.rows[0]);
+    //Log Success Result
+    logger.info(`Restaurant retrieved: ${dataString}`);
+    //Return Success Result
     return res.status(200).json(result.rows[0]);
   } catch (err) {
-    log.addLogItem(
-      "READ",
-      "Failed to fetch restaurant.",
-      "ERROR",
-      JSON.stringify(req.params.id),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -269,28 +211,20 @@ const modifyRestaurant = async (
         req.params.id,
       ]
     );
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
     //Success Result
-    log.addLogItem(
-      "UPDATE",
-      `Restaurant with id ${req.params.id} modified.`,
-      "INFO",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
-
+    logger.info(`Restaurant modified: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "Restaurant modified!",
       data: query.rows[0],
     });
   } catch (err) {
-    log.addLogItem(
-      "UPDATE",
-      `Failed to modify restaurant with id ${req.params.id}.`,
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }

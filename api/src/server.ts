@@ -4,6 +4,7 @@ const cors = require("cors");
 
 //Express
 import express from "express";
+// import { Express } from "express";
 //DotENV
 import dotenv from "dotenv";
 
@@ -28,13 +29,25 @@ dotenv.config();
 const PORT: any = process.env.PORT || 3042;
 
 /* Logger Initialization */
-import log from "./controllers/local/logController";
+import logger from "./controllers/utility/logController";
 
 /* Middleware Initialization */
 //CORS
 app.use(cors());
 //Express JSON
 app.use(express.json());
+
+//Logger Initialization (Requests)
+app.use((req, res, next) => {
+  logger.info(`Request: ${req.method} ${req.url}`);
+  next();
+});
+
+//Logger Initialization (Errors)
+app.use((err: any, req: any, res: any, next: any) => {
+  logger.error(`Error: ${err}`);
+  next();
+});
 
 /* Routes */
 //Join Routes
@@ -49,12 +62,5 @@ app.use("/", resTypeRoutes);
 
 /* App Listener */
 app.listen(PORT, () => {
-  log.addLogItem(
-    "SYSTEM",
-    "Server Initialized",
-    "INFO",
-    JSON.stringify(""),
-    JSON.stringify("")
-  );
-  console.log(`Server initialized and running on port ${PORT}`);
+  logger.info(`Server initialized and running on port ${PORT}`);
 });

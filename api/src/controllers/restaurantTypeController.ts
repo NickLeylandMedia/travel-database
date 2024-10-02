@@ -7,20 +7,14 @@ import db from "../db";
 import { validateRestaurantType } from "../validators/restaurantTypeValidator";
 
 //Import Logger
-import log from "./local/logController";
+import logger from "./utility/logController";
 
 /* Controller Functions */
 const addType = async (req: Request, res: Response, next: NextFunction) => {
   //Validate Request
   if (!validateRestaurantType(req.body)) {
-    log.addLogItem(
-      "CREATE",
-      "Failed to add new restaurant type.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify("Invalid request structure.")
-    );
-
+    //Log Error
+    logger.error("Invalid request structure.");
     //Throw Error if Request is Invalid
     return res.json({
       error: "Invalid request structure.",
@@ -33,26 +27,17 @@ const addType = async (req: Request, res: Response, next: NextFunction) => {
       "insert into restaurant_types (name, description) values ($1, $2) returning *",
       [req.body.name, req.body.description]
     );
-
-    //Success Result
-    log.addLogItem(
-      "CREATE",
-      "New restaurant type added.",
-      "INFO",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`New type added: ${dataString}`);
+    //Return Success Result
     return res.json({ message: "New type added!", data: query.rows[0] });
   } catch (err) {
-    log.addLogItem(
-      "CREATE",
-      "Failed to add new restaurant type.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -69,35 +54,27 @@ const deleteOneType = async (
       "delete from restaurant_types where id = $1 returning *",
       [req.params.id]
     );
-
     //Verify that requested data exists
     if (query.rowCount === 0) {
-      log.addLogItem(
-        "DELETE",
-        "Failed to delete restaurant type.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
-      );
-
+      //Log Error
+      logger.error("Invalid ID, type does not exist.");
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
-
-    //Success Result
-    log.addLogItem(
-      "DELETE",
-      "Restaurant Type Deleted.",
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`Type deleted: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "Restaurant Type Deleted",
       deleted: query.rows[0],
     });
   } catch (err) {
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -111,25 +88,15 @@ const getAllResTypes = async (
   try {
     //Fetch Items From db
     const results = await db.query("select * from restaurant_types", "");
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "All restaurant types fetched.",
-      "INFO",
-      JSON.stringify(""),
-      JSON.stringify(results.rows)
-    );
-
+    //Log Success Result
+    logger.info("All types fetched.");
+    //Return Success Result
     return res.status(200).json(results.rows);
   } catch (err) {
-    log.addLogItem(
-      "READ",
-      "Failed to fetch all restaurant types.",
-      "ERROR",
-      JSON.stringify(""),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -146,40 +113,24 @@ const getOneResType = async (
       "select * from restaurant_types where id = $1",
       [req.params.id]
     );
-
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
-      log.addLogItem(
-        "READ",
-        "Failed to fetch restaurant type.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
-      );
-
+      //Log Error
+      logger.error("Invalid ID, restaurant type does not exist.");
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
-
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "Restaurant Type fetched.",
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(result.rows[0])
-    );
-
+    //Data string Conversion for logging
+    const dataString = JSON.stringify(result.rows[0]);
+    //Log Success Result
+    logger.info(`Type retrieved: ${dataString}`);
+    //Return Success Result
     return res.status(200).json(result.rows[0]);
   } catch (err) {
-    log.addLogItem(
-      "READ",
-      "Failed to fetch restaurant type.",
-      "ERROR",
-      JSON.stringify(req.params.id),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -202,28 +153,20 @@ const modifyResType = async (
         req.params.id,
       ]
     );
-    //Success Result
-    log.addLogItem(
-      "UPDATE",
-      "Restaurant Type Modified.",
-      "INFO",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`Type modified: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "Restaurant Type Modified!",
       restaurant_type: query.rows[0],
     });
   } catch (err) {
-    log.addLogItem(
-      "UPDATE",
-      "Failed to modify restaurant type.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -240,25 +183,15 @@ const getCurrentTypes = async (
       `select restaurants_types_join.restaurant_type_id, restaurant_types.name from public.restaurants_types_join inner join public.restaurant_types on restaurants_types_join.restaurant_type_id=restaurant_types.id where (restaurants_types_join.restaurant_id=$1);`,
       [req.params.id]
     );
-    //Success Result
-    log.addLogItem(
-      "READ",
-      `All types fetched for restaurant with ID ${req.params.id}.`,
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(results.rows)
-    );
-
+    //Log Success Result
+    logger.info(`Types fetched for restaurant with ID ${req.params.id}.`);
+    //Return Success Result
     return res.status(200).json(results.rows);
   } catch (err) {
-    log.addLogItem(
-      "READ",
-      `Failed to fetch all types for restaurant with ID ${req.params.id}.`,
-      "ERROR",
-      JSON.stringify(req.params.id),
-      JSON.stringify(err)
-    );
-
+    //Stringify Error for Logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }

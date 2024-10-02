@@ -8,21 +8,15 @@ import db from "../db";
 import { validateRestaurantTag } from "../validators/restaurantTagValidator";
 
 //Import Logger
-import log from "./local/logController";
+import logger from "./utility/logController";
 
 /* Controller Functions */
 //Add Item to Database
 const addResTag = async (req: Request, res: Response, next: NextFunction) => {
   //Validate Request
   if (!validateRestaurantTag(req.body)) {
-    log.addLogItem(
-      "CREATE",
-      "Failed to add new restaurant tag.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify("Invalid request structure.")
-    );
-
+    //Log Error
+    logger.error("Invalid request structure.");
     //Throw Error if Request is Invalid
     return res.json({
       Error: "Invalid request structure.",
@@ -35,18 +29,17 @@ const addResTag = async (req: Request, res: Response, next: NextFunction) => {
       "insert into restaurant_tags (name, description) values ($1, $2) returning *",
       [req.body.name, req.body.description]
     );
-
-    //Success Result
-    log.addLogItem(
-      "CREATE",
-      "New restaurant tag added.",
-      "INFO",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`New tag added: ${dataString}`);
+    //Return Success Result
     return res.json({ message: "New tag added!", data: query.rows[0] });
   } catch (err) {
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -61,29 +54,18 @@ const deleteAllResTags = async (
   try {
     //Delete All Items From db
     const query = await db.query("truncate restaurant_tags", []);
-
-    //Success Result
-    log.addLogItem(
-      "DELETE",
-      "All restaurant tags deleted.",
-      "INFO",
-      JSON.stringify("All gone now."),
-      JSON.stringify({ message: "All Restaurant Tags Deleted" })
-    );
-
+    //Log Success Result
+    logger.warning("All restaurant tags deleted.");
+    //Return Success Result
     return res.json({
-      message: "All Restaurant Tags Deleted",
+      message: "All restaurant tags deleted.",
       deleted: query.rows,
     });
   } catch (err) {
-    log.addLogItem(
-      "DELETE",
-      "Failed to delete all restaurant tags.",
-      "ERROR",
-      JSON.stringify("All gone now."),
-      JSON.stringify(err)
-    );
-
+    //Stringify Error
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -104,27 +86,17 @@ const deleteOneResTag = async (
 
     //Verify that requested data exists
     if (query.rowCount === 0) {
-      log.addLogItem(
-        "DELETE",
-        "Failed to delete restaurant tag.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
-      );
-
+      //Log Error
+      logger.error("Invalid ID, tag does not exist.");
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
-    //Success Result
-    log.addLogItem(
-      "DELETE",
-      "Restaurant tag deleted.",
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.warning(`Restaurant Tag deleted: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "Restaurant Tag Deleted",
       deleted: query.rows[0],
@@ -144,17 +116,15 @@ const getAllResTags = async (
   try {
     //Fetch Items From db
     const results = await db.query("select * from restaurant_tags", "");
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "All restaurant tags fetched.",
-      "INFO",
-      JSON.stringify("All of them."),
-      JSON.stringify(results.rows)
-    );
-
+    //Log Success Result
+    logger.info("All tags fetched.");
+    //Return Success Result
     return res.status(200).json(results.rows);
   } catch (err) {
+    //Stringify Error for Logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -172,30 +142,18 @@ const getOneResTag = async (
       "select * from restaurant_tags where id = $1",
       [req.params.id || "not entered"]
     );
-
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
-      log.addLogItem(
-        "READ",
-        "Failed to fetch restaurant tag.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
-      );
-
+      //Log Error
+      logger.error("Invalid ID, restaurant tag does not exist.");
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
-
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "Restaurant tag fetched.",
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(result.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(result.rows[0]);
+    //Log Success Result
+    logger.info(`Restaurant tag retrieved: ${dataString}`);
+    //Return Success Result
     return res.status(200).json(result.rows[0]);
   } catch (err) {
     //Throw Error
@@ -210,14 +168,9 @@ const modifyResTag = async (
   next: NextFunction
 ) => {
   if (!validateRestaurantTag(req.body)) {
-    log.addLogItem(
-      "UPDATE",
-      "Failed to modify restaurant tag.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify("Invalid request structure.")
-    );
-
+    //Log Error
+    logger.error("Invalid request structure.");
+    //Throw Error if Request is Invalid
     return res.json({
       Error: "Invalid request structure.",
     });
@@ -234,28 +187,20 @@ const modifyResTag = async (
         req.params.id,
       ]
     );
-    //Success Result
-    log.addLogItem(
-      "UPDATE",
-      "Restaurant tag modified.",
-      "INFO",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`Restaurant Tag modified: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "Restaurant Tag Modified!",
       data: query.rows[0],
     });
   } catch (err) {
-    log.addLogItem(
-      "UPDATE",
-      "Failed to modify restaurant tag.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify(err)
-    );
-
+    //Stringify Error for Logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -272,25 +217,15 @@ const getCurrentTags = async (
       `select restaurants_types_join.restaurant_type_id, restaurant_types.name from public.restaurants_types_join inner join public.restaurant_types on restaurants_types_join.restaurant_type_id=restaurant_types.id where (restaurants_types_join.restaurant_id=$1);`,
       [req.params.id]
     );
-    //Success Result
-    log.addLogItem(
-      "READ",
-      `All tags fetched for restaurant with ID ${req.params.id}.`,
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(results.rows)
-    );
-
+    //Log Success Result
+    logger.info(`Tags fetched for restaurant with ID ${req.params.id}.`);
+    //Return Success Result
     return res.status(200).json(results.rows);
   } catch (err) {
-    log.addLogItem(
-      "READ",
-      `Failed to fetch tags for restaurant with ID ${req.params.id}.`,
-      "ERROR",
-      JSON.stringify(req.params.id),
-      JSON.stringify(err)
-    );
-
+    //Stringify Error for Logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }

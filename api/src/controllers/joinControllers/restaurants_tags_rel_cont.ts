@@ -8,7 +8,7 @@ import db from "../../db";
 import { validateResTagRel } from "../../validators/joinValidators/restaurants_tags_rel_val";
 
 //Import Logger
-import log from "../local/logController";
+import logger from "../utility/logController";
 
 /* Controller Functions */
 //Add Item to Database
@@ -19,14 +19,8 @@ const addResTagRel = async (
 ) => {
   //Validate Request
   if (!validateResTagRel(req.body)) {
-    log.addLogItem(
-      "CREATE",
-      "Failed to add new restaurant-tag relationship.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify("Invalid request structure.")
-    );
-
+    //Log Error
+    logger.error("Invalid request structure.");
     //Throw Error if Request is Invalid
     return res.json({
       error: "Invalid request structure.",
@@ -39,29 +33,20 @@ const addResTagRel = async (
       "insert into restaurants_tags_join (restaurant_id, restaurant_tag_id) values ($1, $2) returning *",
       [req.body.restaurant_id, req.body.restaurant_tag_id]
     );
-
-    //Success Result
-    log.addLogItem(
-      "CREATE",
-      "New restaurant-tag relationship added.",
-      "INFO",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`New restaurant-tag relationship added: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "New restaurant-tag relationship added!",
       data: query.rows[0],
     });
   } catch (err) {
-    log.addLogItem(
-      "CREATE",
-      "Failed to add new restaurant-tag relationship.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -76,29 +61,18 @@ const deleteAllResTagRels = async (
   try {
     //Delete All Items From db
     const query = await db.query("truncate restaurants_tags_join", []);
-
-    //Success Result
-    log.addLogItem(
-      "DELETE",
-      "All Restaurant - Tag Relationships Deleted",
-      "INFO",
-      JSON.stringify("All Gone"),
-      JSON.stringify(query.rows)
-    );
-
+    //Log Success Result
+    logger.warning("All restaurant-tag relationships deleted.");
+    //Return Success Result
     return res.json({
-      message: "All Restaurant - Tag Relationships Deleted",
+      message: "All restaurant-tag relationships deleted.",
       deleted: query.rows,
     });
   } catch (err) {
-    log.addLogItem(
-      "DELETE",
-      "Failed to delete all restaurant - tag relationships.",
-      "ERROR",
-      JSON.stringify("All Gone"),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -116,43 +90,27 @@ const deleteOneResTagRel = async (
       "delete from restaurants_tags_join where id = $1 returning *",
       [req.params.id]
     );
-
     //Verify that requested data exists
     if (query.rowCount === 0) {
-      log.addLogItem(
-        "DELETE",
-        "Failed to delete restaurant - tag relationship.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
-      );
-
+      //Log Error
+      logger.error("Invalid ID, restaurant-tag relationship does not exist.");
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
-
-    //Success Result
-    log.addLogItem(
-      "DELETE",
-      "Restaurant - Tag Relationship Deleted",
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.warning(`Restaurant-tag relationship deleted: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "Restaurant - Tag Relationship Deleted",
       deleted: query.rows[0],
     });
   } catch (err) {
-    log.addLogItem(
-      "DELETE",
-      "Failed to delete restaurant - tag relationship.",
-      "ERROR",
-      JSON.stringify(req.params.id),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -167,17 +125,15 @@ const getAllResTagRels = async (
   try {
     //Fetch Items From db
     const results = await db.query("select * from restaurants_tags_join", "");
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "All Restaurant - Tag Relationships Fetched",
-      "INFO",
-      JSON.stringify(""),
-      JSON.stringify(results.rows)
-    );
-
+    //Log Success Result
+    logger.info("All restaurant - tag relationships fetched.");
+    //Return Success Result
     return res.status(200).json(results.rows);
   } catch (err) {
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -198,37 +154,22 @@ const getOneResTagRel = async (
 
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
-      log.addLogItem(
-        "READ",
-        "Failed to fetch restaurant - tag relationship.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
-      );
-
+      //Log Error
+      logger.error("Invalid ID, restaurant - tag relationship does not exist.");
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
-
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "Restaurant - Tag Relationship Fetched",
-      "INFO",
-      JSON.stringify(req.params.id),
-      JSON.stringify(result.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(result.rows[0]);
+    //Log Success Result
+    logger.info(`Restaurant - tag relationship retrieved: ${dataString}`);
+    //Return Success Result
     return res.status(200).json(result.rows[0]);
   } catch (err) {
-    log.addLogItem(
-      "READ",
-      "Failed to fetch restaurant - tag relationship.",
-      "ERROR",
-      JSON.stringify(req.params.id),
-      JSON.stringify(err)
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -241,14 +182,8 @@ const modifyResTagRel = async (
   next: NextFunction
 ) => {
   if (!validateResTagRel(req.body)) {
-    log.addLogItem(
-      "UPDATE",
-      "Failed to modify restaurant - tag relationship.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify("Invalid request structure.")
-    );
-
+    //Log Error
+    logger.error("Invalid request structure.");
     //Throw Error if Request is Invalid
     return res.json({
       Error: "Invalid request structure.",
@@ -266,15 +201,11 @@ const modifyResTagRel = async (
         req.params.id,
       ]
     );
-    //Success Result
-    log.addLogItem(
-      "UPDATE",
-      "Restaurant - Tag Relationship Modified",
-      "INFO",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`Restaurant - Tag Relationship Modified: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "Restaurant - Tag Relationship Modified!",
       restaurant_type: query.rows[0],

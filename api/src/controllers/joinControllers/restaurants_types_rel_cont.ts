@@ -8,7 +8,7 @@ import db from "../../db";
 import { validateResTypeRel } from "../../validators/joinValidators/restaurants_types_rel_val";
 
 //Import Logger
-import log from "../local/logController";
+import logger from "../utility/logController";
 
 /* Controller Functions */
 //Add Item to Database
@@ -19,13 +19,8 @@ const addResTypeRel = async (
 ) => {
   //Validate Request
   if (!validateResTypeRel(req.body)) {
-    log.addLogItem(
-      "CREATE",
-      "Failed to add new restaurant-type relationship.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify("Invalid request structure.")
-    );
+    //Log Error
+    logger.error("Invalid request structure.");
     //Throw Error if Request is Invalid
     return res.json({
       error: "Invalid request structure.",
@@ -38,21 +33,20 @@ const addResTypeRel = async (
       "insert into restaurants_types_join (restaurant_id, restaurant_type_id) values ($1, $2) returning *",
       [req.body.restaurant_id, req.body.restaurant_type_id]
     );
-
-    //Success Result
-    log.addLogItem(
-      "CREATE",
-      "New restaurant-type relationship added.",
-      "SUCCESS",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
-
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`New restaurant-type relationship added: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "New restaurant-type relationship added!",
       data: query.rows[0],
     });
   } catch (err) {
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -79,30 +73,18 @@ const deleteOneResTypeRel = async (
       "delete from restaurants_types_join where id = $1 returning *",
       [req.params.id]
     );
-
     //Verify that requested data exists
     if (query.rowCount === 0) {
-      log.addLogItem(
-        "DELETE",
-        "Failed to delete restaurant-type relationship.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
-      );
-
+      //Log Error
+      logger.error("Invalid ID, restaurant-type relationship does not exist.");
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
+    //Data string conversion for logging
 
-    //Success Result
-    log.addLogItem(
-      "DELETE",
-      "Restaurant - Type Relationship Deleted",
-      "SUCCESS",
-      JSON.stringify(req.params.id),
-      JSON.stringify(query.rows[0])
-    );
+    //Log Success Result
 
+    //Return Success Result
     return res.json({
       message: "Restaurant - Type Relationship Deleted",
       deleted: query.rows[0],
@@ -122,16 +104,15 @@ const getAllResTypeRels = async (
   try {
     //Fetch Items From db
     const results = await db.query("select * from restaurants_types_join", "");
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "All restaurant-type relationships retrieved.",
-      "SUCCESS",
-      JSON.stringify("N/A"),
-      JSON.stringify(results.rows)
-    );
+    //Log Success Result
+    logger.info("All restaurant-type relationships fetched.");
+    //Return Success Result
     return res.status(200).json(results.rows);
   } catch (err) {
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
@@ -152,26 +133,15 @@ const getOneResTypeRel = async (
 
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
-      log.addLogItem(
-        "READ",
-        "Failed to retrieve restaurant-type relationship.",
-        "ERROR",
-        JSON.stringify(req.params.id),
-        JSON.stringify("Invalid ID")
+      //Log Error
+      logger.error(
+        "Invalid ID, restaurant - type relationship does not exist."
       );
       //Throw Error
       return res.json({ error: "Invalid ID" });
     }
 
-    //Success Result
-    log.addLogItem(
-      "READ",
-      "Restaurant - Type Relationship Retrieved",
-      "SUCCESS",
-      JSON.stringify(req.params.id),
-      JSON.stringify(result.rows[0])
-    );
-
+    //Return Success Result
     return res.status(200).json(result.rows[0]);
   } catch (err) {
     //Throw Error
@@ -186,14 +156,8 @@ const modifyResTypeRel = async (
   next: NextFunction
 ) => {
   if (!validateResTypeRel(req.body)) {
-    log.addLogItem(
-      "UPDATE",
-      "Failed to modify restaurant-type relationship.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify("Invalid request structure.")
-    );
-
+    //Log Error
+    logger.error("Invalid request structure.");
     //Throw Error if Request is Invalid
     return res.json({
       Error: "Invalid request structure.",
@@ -211,26 +175,20 @@ const modifyResTypeRel = async (
         req.params.id,
       ]
     );
-    //Success Result
-    log.addLogItem(
-      "UPDATE",
-      "Restaurant - Type Relationship Modified",
-      "INFO",
-      JSON.stringify(req.body),
-      JSON.stringify(query.rows[0])
-    );
+    //Data string conversion for logging
+    const dataString = JSON.stringify(query.rows[0]);
+    //Log Success Result
+    logger.info(`Restaurant - type relationship modified: ${dataString}`);
+    //Return Success Result
     return res.json({
       message: "Restaurant - Type Relationship Modified!",
       relationship: query.rows[0],
     });
   } catch (err) {
-    log.addLogItem(
-      "UPDATE",
-      "Failed to modify restaurant-type relationship.",
-      "ERROR",
-      JSON.stringify(req.body),
-      JSON.stringify(err)
-    );
+    //Data string conversion for logging
+    const dataString = JSON.stringify(err);
+    //Log Error
+    logger.error(`Request Failed: ${dataString}`);
     //Throw Error
     return res.json({ error: "Request Failed", info: err });
   }
