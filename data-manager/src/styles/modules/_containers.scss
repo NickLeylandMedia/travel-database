@@ -1,0 +1,37 @@
+@import "../variables.scss";
+@import "../responsive.scss";
+
+/* Containers Start */
+//Narrow Container
+.narrowContainer {
+  width: $component-nearFull;
+  margin: 20px auto;
+
+  @include lg {
+    width: $component-half;
+  }
+
+  @include xl {
+    width: $component-third;
+  }
+}
+
+//Standard Container
+.standardContainer {
+  width: $component-nearFull;
+  margin: 20px auto;
+
+  @include lg {
+    width: $component-overHalf;
+  }
+
+  @include xl {
+    width: $component-half;
+  }
+}
+
+//Wide Container
+.wideContainer {
+  width: $component-nearFull;
+  margin: 20px auto;
+}

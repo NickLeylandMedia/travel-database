@@ -1,0 +1,39 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/responsive.scss";
+
+.Navbar {
+  display: flex;
+  flex-direction: row;
+}
+
+.colorBar {
+  padding: 1em;
+  border-radius: 25px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  background-color: $lightBlue;
+}
+
+.narrowNav {
+  display: flex;
+  justify-content: space-between;
+
+  @include lg {
+    display: none;
+  }
+}
+
+.logoBox {
+  width: 25%;
+  min-height: 40px;
+}
+
+.linkBox {
+  display: none;
+  width: 75%;
+  @include lg {
+    display: flex;
+    justify-content: space-evenly;
+  }
+}

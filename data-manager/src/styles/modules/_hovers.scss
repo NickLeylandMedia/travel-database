@@ -1,0 +1,48 @@
+//Color Change Hovers
+.redHover {
+  @media (hover: hover) {
+    &:hover {
+      color: red;
+    }
+  }
+}
+//Blue hover
+.blueHover {
+  @media (hover: hover) {
+    &:hover {
+      color: blue;
+    }
+  }
+}
+//Green hover
+.greenHover {
+  @media (hover: hover) {
+    &:hover {
+      color: green;
+    }
+  }
+}
+//Yellow hover
+.yellowHover {
+  @media (hover: hover) {
+    &:hover {
+      color: yellow;
+    }
+  }
+}
+//Purple hover
+.purpleHover {
+  @media (hover: hover) {
+    &:hover {
+      color: purple;
+    }
+  }
+}
+//Custom-Color Hover
+@mixin colorHover($color) {
+  @media (hover: hover) {
+    &:hover {
+      color: $color;
+    }
+  }
+}

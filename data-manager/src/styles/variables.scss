@@ -7,19 +7,111 @@
 $background-dark: #111933;
 $background-light: white;
 // $background: #03001c;
-$blue: #1b998b;
+$seafoam: #1b998b;
+$lightBlue: #3068e0;
 $darkBlue: #0e1661;
 $yellow: #f6ae2d;
 $orange: #f48923;
 $redOrange: #f26419; //originally red
 $red: #d11149;
 $darkRed: #941c2f;
+$veryDarkRed: #4a0707;
+$veryDarkBlue: #110072;
 $green: #7fb800;
 $lightGreen: #aaf683;
+$moneyGreen: #225925;
 $lightPurple: #9381ff;
 $purple: #b026af;
 $violet: #7d2e68;
 $pink: #dc0073;
+$lightGray: #949494;
+$gray: #4a4a4a;
+
+//Modern Vivid SAAS
+$mvs-blue: #3a43ff;
+$mvs-orange: #fca311;
+$mvs-red: #f24236;
+$mvs-black: #0d1321;
+$mvs-teal: #008f88;
+
+//Modern Nautical
+$mn-red: #8b1e3f;
+$mn-white: #e4dfda;
+$mn-blue: #01295f;
+$mn-teal: #273e47;
+$mn-salmon: #ff595e;
+$mn-green: #074a35;
+$mn-lightBlue: #279af1;
+
+//Paypal-Esque Theme
+$pe-orange: #ffa400;
+$pe-red: #e85858;
+$pe-green: #008f18;
+$pe-lightBlue: #009ffd;
+$pe-darkBlue: #2a2a72;
+$pe-gray: #232528;
+$pe-white: #eaf6ff;
+
+//Dark Autumn Theme
+$da-black: #141414;
+$da-yellow: #ffc857;
+$da-orange: #e9724c;
+$da-red: #c5283d;
+$da-brown: #8c1c13;
+
+//Futuristic Theme
+$f-black: #141414;
+$f-darkGray: #353431;
+$f-blue: #00b2ff;
+$f-red: #e61d0f;
+
+//Neon-Pastel Theme
+$np-yellow: #e1ff5c;
+$np-pink: #ff70db;
+$np-blue: #7ee8fa;
+$np-orange: #fe5e41;
+$np-black: #0b0500;
+
+//Dark New Age SAAS
+$dna-dark: #171738;
+$dna-purple: #2e1760;
+$dna-blue: #3423a6;
+$dna-lightPurple: #7180b9;
+$dna-white: #dff3e4;
+
+//Hipster Contemporary Theme
+$hc-dark: #223843;
+$hc-white: #eff1f3;
+$hc-gray: #dbd3d8;
+$hc-tan: #d8b4a0;
+$hc-orange: #d77a61;
+
+//Hipster Forest Theme
+$hf-lightGreen: #606c38;
+$hf-darkGreen: #283618;
+$hf-offWhite: #fefae0;
+$hf-lightYellow: #dda15e;
+$hf-orange: #bc6c25;
+
+//Beach Day Theme
+$bd-darkBlue: #2364aa;
+$bd-lightBlue: #3da5d9;
+$bd-teal: #73bfb8;
+$bd-yellow: #fec601;
+$bd-orange: #ea7317;
+
+//Winter Wonderland Theme
+$ww-lightGray: #d0ccd0;
+$ww-gray: #605856;
+$ww-lightBlue: #1c6e8c;
+$ww-darkBlue: #274156;
+
+//Regal Institution Theme
+$ri-purple: #2b174f;
+$ri-yellow: #eab934;
+$ri-white: #e1efe6;
+$ri-gray: #aeb7b3;
+$ri-black: #000411;
 
 //Fonts
 $font-primary: "Barlow", sans-serif;
@@ -27,12 +119,12 @@ $font-secondary: "Orienta", sans-serif;
 $font-tertiary: "Open Sans", sans-serif;
 
 //Font Sizes
-$paragraph: 24px;
-$heading-1: 48px;
-$heading-2: 36px;
-$heading-3: 32px;
-$heading-4: 30px;
-$heading-5: 28px;
+$paragraph: 14px;
+$heading-1: 36px;
+$heading-2: 30px;
+$heading-3: 24px;
+$heading-4: 18px;
+$heading-5: 16px;
 
 //Text Colors
 $text-light: white;

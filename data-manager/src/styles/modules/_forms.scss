@@ -1,8 +1,37 @@
-.formInput {
+@import "../responsive.scss";
+
+.labeledInputContainer {
   display: flex;
   width: 100%;
   margin: 10px auto;
   flex-direction: column;
+}
+
+.halfWidthLabeledInput {
+  display: flex;
+  width: 100%;
+  margin: 10px auto;
+  flex-direction: column;
+}
+
+.dualInputRow {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @include md {
+    flex-direction: row;
+  }
+
+  .labeledInputContainer {
+    width: 100%;
+    margin: 10px auto;
+
+    @include md {
+      width: 48%;
+      margin: 10px auto;
+    }
+  }
 }
 
 .groupInputBox {
@@ -11,17 +40,33 @@
   margin: 0 auto;
 }
 
-.rowFormInput {
+.inputButtonRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px 0;
+
+  input {
+    width: 74%;
+  }
+
+  button {
+    width: 22%;
+  }
+}
+
+.rowLabelInput {
   display: flex;
   width: 100%;
   margin: 10px auto;
   flex-direction: row;
+  justify-content: space-between;
 
   input {
     width: 20%;
   }
 
   label {
-    width: 80%;
+    width: 75%;
   }
 }

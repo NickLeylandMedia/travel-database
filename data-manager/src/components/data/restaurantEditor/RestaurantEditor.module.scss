@@ -1,7 +1,7 @@
 @import "../../../styles/responsive.scss";
 @import "../../../styles/variables.scss";
-@import "../../../styles/modules/inputs";
-@import "../../../styles/modules/buttons";
+@import "../../../styles/modules/inputs.scss";
+@import "../../../styles/modules/clickables.scss";
 
 .RestaurantEditor {
   width: 90%;
@@ -9,7 +9,6 @@
 
   input,
   textarea {
-    @include whiteInputBlackOutline;
     font-family: $font-tertiary;
   }
 }
@@ -49,7 +48,7 @@
 }
 
 .imageUploadButton {
-  @include colorButton($blue);
+  @include colorButton($lightBlue);
 }
 
 .submitAllCont {

@@ -49,7 +49,7 @@ const MinimalCard: React.FC<Props> = ({
 
   /* Component Return Statement */
   return (
-    <div className={`basicCard ${styles.MinimalCard}`}>
+    <div className={`${styles.MinimalCard} raisedWhiteCardNoHover`}>
       <img src={image} alt={alt} className={styles.minimalCardImage} />
       <h3 className={styles.minimalCardTitle}>{title}</h3>
       {city && state ? (
