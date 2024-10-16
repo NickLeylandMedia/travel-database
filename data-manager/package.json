@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "firebase": "^10.7.1",
+    "dotenv": "^16.4.5",
+    "firebase": "^10.14.1",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-query": "^3.39.3",
     "recoil": "^0.7.7",
-    "sass": "^1.69.5"
+    "sass": "^1.79.5"
   },
   "devDependencies": {
     "@types/node": "latest",

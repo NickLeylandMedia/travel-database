@@ -125,6 +125,7 @@ const RestaurantForm: React.FC<Props> = () => {
           name="image"
           id="image"
           onChange={(e: any) => setImageFile(e.target.files[0])}
+          className="whiteInputBlackOutline"
         />
       </div>
       <div className="basicInfoGroup">
@@ -137,6 +138,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="name"
             value={nameState}
             onChange={(e) => setNameState(e.target.value)}
+            className="whiteInputBlackOutline"
           />
         </div>
         <div className="formInput">
@@ -146,6 +148,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="summary"
             value={summaryState}
             onChange={(e) => setSummaryState(e.target.value)}
+            className="whiteInputBlackOutline"
           />
         </div>
         <div className="formInput">
@@ -155,6 +158,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="description"
             value={descriptionState}
             onChange={(e) => setDescriptionState(e.target.value)}
+            className="whiteInputBlackOutline"
           />
         </div>
       </div>
@@ -168,6 +172,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="city"
             value={cityState}
             onChange={(e) => setCityState(e.target.value)}
+            className="whiteInputBlackOutline"
           />
         </div>
         <div className="formInput">
@@ -178,6 +183,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="state"
             value={stateState}
             onChange={(e) => setStateState(e.target.value)}
+            className="whiteInputBlackOutline"
           />
         </div>
         <div className="formInput">
@@ -188,6 +194,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="zip"
             value={zipState}
             onChange={(e) => setZipState(e.target.value)}
+            className="whiteInputBlackOutline"
           />
         </div>
         <div className="formInput">
@@ -198,6 +205,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="address"
             value={addressState}
             onChange={(e) => setAddressState(e.target.value)}
+            className="whiteInputBlackOutline"
           />
         </div>
         <div className="formInput">
@@ -208,6 +216,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="coord"
             value={coordState}
             onChange={(e) => setCoordState(e.target.value)}
+            className="whiteInputBlackOutline"
           />
         </div>
       </div>
@@ -221,6 +230,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="active"
             checked={activeState}
             onChange={(e) => setActiveState(e.target.checked)}
+            className="whiteInputBlackOutline"
           />
         </div>
         <div className="rowFormInput">
@@ -231,6 +241,7 @@ const RestaurantForm: React.FC<Props> = () => {
             id="seasonal"
             checked={seasonalState}
             onChange={(e) => setSeasonalState(e.target.checked)}
+            className="whiteInputBlackOutline"
           />
         </div>
         {/* Input for month closed */}
@@ -243,6 +254,7 @@ const RestaurantForm: React.FC<Props> = () => {
             disabled={activeState ? true : false}
             value={monthClosedTextState}
             onChange={(e) => setMonthClosedTextState(e.target.value)}
+            className="whiteInputBlackOutline"
           />
         </div>
         {/* Input for month closed Numeric */}
@@ -257,6 +269,7 @@ const RestaurantForm: React.FC<Props> = () => {
             disabled={activeState ? true : false}
             value={Number(monthClosedNumState)}
             onChange={(e) => setMonthClosedNumState(Number(e.target.value))}
+            className="whiteInputBlackOutline"
           />
         </div>
         {/* input for year closed */}
@@ -269,6 +282,7 @@ const RestaurantForm: React.FC<Props> = () => {
             disabled={activeState ? true : false}
             value={Number(yearClosedState)}
             onChange={(e) => setYearClosedState(Number(e.target.value))}
+            className="whiteInputBlackOutline"
           />
         </div>
       </div>

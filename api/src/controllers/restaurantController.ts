@@ -29,7 +29,7 @@ const addRestaurant = async (
   try {
     //Add Item To db
     const query = await db.query(
-      "insert into restaurants (name, city, state, coord, description, picture, zip, address, active, seasonal, month_closed_text, month_closed_numeric, year_closed, summary) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) returning *",
+      "insert into restaurants (name, city, state, coord, description, picture, zip, address, active, seasonal, month_closed_text, month_closed_numeric, year_closed, summary, chain) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) returning *",
       [
         req.body.name,
         req.body.city,
@@ -45,6 +45,7 @@ const addRestaurant = async (
         req.body.month_closed_numeric,
         req.body.year_closed,
         req.body.summary,
+        req.body.chain,
       ]
     );
     //Data string conversion for logging
@@ -132,6 +133,40 @@ const getAllRestaurants = async (
   next: NextFunction
 ) => {
   try {
+    //Check if Detailed Request
+    if (req.query.detailed) {
+      //Fetch Items From db
+      const results = await db.query(
+        `SELECT restaurants.*,
+       COALESCE(
+         (SELECT json_agg(json_build_object('id', restaurant_types.id, 'name', restaurant_types.name))
+          FROM restaurant_types
+          JOIN restaurants_types_join ON restaurant_types.id = restaurants_types_join.restaurant_type_id
+          WHERE restaurants_types_join.restaurant_id = restaurants.id
+          GROUP BY restaurant_types.id
+          ORDER BY restaurant_types.id
+         ), '[]'
+       ) AS categories,
+       COALESCE(
+         (SELECT json_agg(json_build_object('id', restaurant_tags.id, 'name', restaurant_tags.name))
+          FROM restaurant_tags
+          JOIN restaurants_tags_join ON restaurant_tags.id = restaurants_tags_join.restaurant_tag_id
+          WHERE restaurants_tags_join.restaurant_id = restaurants.id
+          GROUP BY restaurant_tags.id
+          ORDER BY restaurant_tags.id
+         ), '[]'
+       ) AS tags
+        FROM restaurants
+        GROUP BY restaurants.id
+        ORDER BY restaurants.id;
+        `,
+        ""
+      );
+      //Log Success Result
+      logger.info("All restaurants fetched with category and tag details.");
+      //Return Success Result
+      return res.status(200).json(results.rows);
+    }
     //Fetch Items From db
     const results = await db.query("select * from restaurants", "");
     //Log Success Result
@@ -191,7 +226,7 @@ const modifyRestaurant = async (
   try {
     //Modify Item In db
     const query = await db.query(
-      "update restaurants set name = $1, city = $2, state = $3, coord = $4, description = $5, picture = $6, zip = $7, address = $8, active = $9, seasonal = $10, month_closed_text = $11, month_closed_numeric = $12, year_closed = $13, last_edited = $14, summary = $15 where id = $16 returning *",
+      "update restaurants set name = $1, city = $2, state = $3, coord = $4, description = $5, picture = $6, zip = $7, address = $8, active = $9, seasonal = $10, month_closed_text = $11, month_closed_numeric = $12, year_closed = $13, last_edited = $14, summary = $15, chain = $16 where id = $17 returning *",
       [
         req.body.name,
         req.body.city,
@@ -208,6 +243,7 @@ const modifyRestaurant = async (
         req.body.year_closed,
         new Date(Date.now()).toISOString(),
         req.body.summary,
+        req.body.chain,
         req.params.id,
       ]
     );

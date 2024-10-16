@@ -1,32 +1,44 @@
+/* Dotenv Import */
+import dotenv from "dotenv";
+
+/* Dotenv Initialization */
+dotenv.config();
+
+/* Initialize API URL as a constant */
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 /* GET REQUESTS */
 //All Restaurants
 function fetchAllRestaurants() {
-  return fetch("http://127.0.0.1:3008/api/restaurants").then((res) =>
+  return fetch(`${API_URL}/api/restaurants`).then((res) => res.json());
+}
+
+//All Restaurants - Detailed
+function fetchAllRestaurantsDetailed() {
+  return fetch(`${API_URL}/api/restaurants?detailed=true`).then((res) =>
     res.json()
   );
 }
 
 //One Restaurant
 function fetchOneRestaurant(id: string) {
-  return fetch(`http://127.0.0.1:3008/api/restaurants/${id}`).then((res) =>
-    res.json()
-  );
+  return fetch(`${API_URL}/api/restaurants/${id}`).then((res) => res.json());
 }
 
 //All Tags
 function fetchAllRestaurantTags() {
-  return fetch("http://localhost:3008/api/restags").then((res) => res.json());
+  return fetch(`${API_URL}/api/restags`).then((res) => res.json());
 }
 
 //All Types
 function fetchAllRestaurantTypes() {
-  return fetch("http://localhost:3008/api/restypes").then((res) => res.json());
+  return fetch(`${API_URL}/api/restypes`).then((res) => res.json());
 }
 
 //Types By Restaurant
 function fetchTypesByRestaurant(id: string) {
-  return fetch(`http://localhost:3008/api/restypes/restaurant/${id}`).then(
-    (res) => res.json()
+  return fetch(`${API_URL}/api/restypes/restaurant/${id}`).then((res) =>
+    res.json()
   );
 }
 /* END GET REQUESTS */
@@ -66,7 +78,7 @@ function postNewRestaurant(
     summary: summary || null,
   });
 
-  return fetch("http://localhost:3008/api/restaurants", {
+  return fetch(`${API_URL}/api/restaurants`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -82,7 +94,7 @@ function postNewRestaurantTagRel(restaurant_id: string, tag_id: string) {
     restaurant_tag_id: tag_id,
   });
 
-  return fetch("http://localhost:3008/api/restagrel", {
+  return fetch(`${API_URL}/api/restagrel`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -98,7 +110,7 @@ function postNewRestaurantTypeRel(restaurant_id: string, type_id: string) {
     restaurant_type_id: type_id,
   });
 
-  return fetch("http://localhost:3008/api/restyperel", {
+  return fetch(`${API_URL}/api/restyperel`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -144,7 +156,7 @@ function updateRestaurant(
     summary: summary || null,
   });
 
-  return fetch(`http://localhost:3008/api/restaurants/${id}`, {
+  return fetch(`${API_URL}/api/restaurants/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -156,6 +168,7 @@ function updateRestaurant(
 
 export {
   fetchAllRestaurants,
+  fetchAllRestaurantsDetailed,
   fetchOneRestaurant,
   fetchAllRestaurantTags,
   fetchAllRestaurantTypes,

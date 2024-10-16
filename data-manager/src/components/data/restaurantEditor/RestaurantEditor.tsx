@@ -12,7 +12,10 @@ import styles from "./RestaurantEditor.module.scss";
 /* Module Imports */
 import { uploadFile } from "@/modules/firebase/storage";
 import { updateRestaurant } from "../../../modules/api";
-import { useRouter } from "next/router";
+// import useRouter from "next/router";
+// import { useRouter } from "next/router";
+
+import Router from "next/router";
 
 /* Component Interfaces */
 interface Props {
@@ -76,7 +79,7 @@ const RestaurantEditor: React.FC<Props> = ({
 
   const [activeChanges, setActiveChanges] = useState(false);
 
-  const router = useRouter();
+  // const router = useRouter();
 
   /* End State Variables */
 
@@ -107,7 +110,7 @@ const RestaurantEditor: React.FC<Props> = ({
 
     if (update.message) {
       alert("Restaurant successfully updated!");
-      router.push("/data");
+      Router.push("/data");
     }
   }
   /* End Functions */
@@ -203,6 +206,7 @@ const RestaurantEditor: React.FC<Props> = ({
               id="name"
               value={nameState}
               onChange={(e) => setNameState(e.target.value)}
+              className="whiteInputBlackOutline"
             />
           </div>
           <div className="formInput">
@@ -216,6 +220,7 @@ const RestaurantEditor: React.FC<Props> = ({
               rows={10}
               value={summaryState}
               onChange={(e) => setSummaryState(e.target.value)}
+              className="whiteInputBlackOutline"
             ></textarea>
           </div>
         </div>
@@ -227,15 +232,16 @@ const RestaurantEditor: React.FC<Props> = ({
         <div className="groupInputBox">
           <div className="formInput">
             <label htmlFor="ean">EAN</label>
-            <input type="text" id="ean" />
+            <input type="text" id="ean" className="whiteInputBlackOutline" />
           </div>
           <div className="formInput">
             <label htmlFor="upc">UPC</label>
-            <input type="text" id="upc" />
+            <input type="text" id="upc" className="whiteInputBlackOutline" />
           </div>
           <div className="formInput">
             <label htmlFor="isbn">ISBN</label>
-            <input type="text" id="isbn" />
+            <input type="text" id="isbn" className="whiteInputBlackOutline" />
+
           </div>
         </div>
       </div> */}
@@ -254,6 +260,7 @@ const RestaurantEditor: React.FC<Props> = ({
               id="city"
               value={cityState}
               onChange={(e) => setCityState(e.target.value)}
+              className="whiteInputBlackOutline"
             />
           </div>
           <div className="formInput">
@@ -265,6 +272,7 @@ const RestaurantEditor: React.FC<Props> = ({
               id="state"
               value={stateState}
               onChange={(e) => setStateState(e.target.value)}
+              className="whiteInputBlackOutline"
             />
           </div>
           <div className="formInput">
@@ -276,6 +284,7 @@ const RestaurantEditor: React.FC<Props> = ({
               id="zip"
               value={zipState}
               onChange={(e) => setZipState(e.target.value)}
+              className="whiteInputBlackOutline"
             />
           </div>
           <div className="formInput">
@@ -287,6 +296,7 @@ const RestaurantEditor: React.FC<Props> = ({
               id="address"
               value={addressState}
               onChange={(e) => setAddressState(e.target.value)}
+              className="whiteInputBlackOutline"
             />
           </div>
         </div>
@@ -308,6 +318,7 @@ const RestaurantEditor: React.FC<Props> = ({
               onChange={(e) => {
                 setActiveState(e.target.checked);
               }}
+              className="whiteInputBlackOutline"
             />
           </div>
           <div className="rowFormInput">
@@ -321,6 +332,7 @@ const RestaurantEditor: React.FC<Props> = ({
               onChange={(e) => {
                 setSeasonalState(e.target.checked);
               }}
+              className="whiteInputBlackOutline"
             />
           </div>
           <div className="formInput">
@@ -333,6 +345,7 @@ const RestaurantEditor: React.FC<Props> = ({
               disabled={activeState ? true : false}
               value={monthClosedTextState}
               onChange={(e) => setMonthClosedTextState(e.target.value)}
+              className="whiteInputBlackOutline"
             />
           </div>
           <div className="formInput">
@@ -347,6 +360,7 @@ const RestaurantEditor: React.FC<Props> = ({
               disabled={activeState ? true : false}
               value={monthClosedNumState}
               onChange={(e) => setMonthClosedNumState(Number(e.target.value))}
+              className="whiteInputBlackOutline"
             />
           </div>
           <div className="formInput">
@@ -359,6 +373,7 @@ const RestaurantEditor: React.FC<Props> = ({
               disabled={activeState ? true : false}
               value={yearClosedState}
               onChange={(e) => setYearClosedState(Number(e.target.value))}
+              className="whiteInputBlackOutline"
             />
           </div>
           <div className="typeInput">

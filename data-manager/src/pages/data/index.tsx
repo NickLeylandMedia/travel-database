@@ -7,6 +7,8 @@ import React, { useEffect, useState } from "react";
 /* Image Imports */
 
 /* Component Imports */
+import Navbar from "@/components/navigation/navbar/Navbar";
+import RestaurantGrid from "@/components/data/restaurantGrid/RestaurantGrid";
 import TableDisp from "@/components/data/tableDisp/TableDisp";
 import TableSelector from "@/components/data/tableSelector/TableSelector";
 
@@ -15,13 +17,13 @@ import TableSelector from "@/components/data/tableSelector/TableSelector";
 import { getAllTitles } from "@/modules/arrTools";
 //React Query
 import { useQuery } from "react-query";
-//Next Router
-import { useRouter } from "next/router";
+
 //API
 import {
   fetchAllRestaurants,
   fetchAllRestaurantTags,
   fetchAllRestaurantTypes,
+  fetchAllRestaurantsDetailed,
 } from "@/modules/api";
 //Recoil
 import { useRecoilValue, useRecoilState } from "recoil";
@@ -37,9 +39,7 @@ interface Props {
 
 /* Component */
 const Data: React.FC<Props> = ({ restaurants, resTags, resTypes }) => {
-  console.log({ restaurants: restaurants });
-  console.log({ resTags: resTags });
-  console.log({ resTypes: resTypes });
+  console.log(restaurants);
   /* State Variables */
   //Query State
   const queries = [
@@ -63,7 +63,7 @@ const Data: React.FC<Props> = ({ restaurants, resTags, resTypes }) => {
   //Page Mode State
   const [pageMode, setPageMode] = useState<string>("grid");
   //Router
-  const router = useRouter();
+  // const router = useRouter();
   /* End State Variables */
 
   /* Render Variables */
@@ -85,15 +85,27 @@ const Data: React.FC<Props> = ({ restaurants, resTags, resTypes }) => {
   return (
     <div className="page Data">
       {/* Header Start */}
-      <header></header>
+      <header>
+        <Navbar
+          fontClass="primary"
+          items={[
+            { text: "Home", address: "/" },
+            { text: "Restaurants", address: "/restaurants" },
+            { text: "Categories", address: "/categories" },
+            { text: "Tags", address: "/tags" },
+            { text: "Lists", address: "/lists" },
+          ]}
+        />
+      </header>
       {/* Header End */}
       {/* Content Start */}
       <div className="mainContent">
-        <TableSelector
+        <RestaurantGrid items={restaurants} />
+        {/* <TableSelector
           tableSetter={setSelectedTable}
           tables={getAllTitles(queries)}
-        />
-        <TableDisp selectedTable={selectedTable} items={renderArray} />
+        /> */}
+        {/* <TableDisp selectedTable={selectedTable} items={renderArray} /> */}
       </div>
       {/* Content End */}
       {/* Footer Start */}
@@ -104,7 +116,7 @@ const Data: React.FC<Props> = ({ restaurants, resTags, resTypes }) => {
 };
 
 export async function getStaticProps() {
-  const restaurants = await fetchAllRestaurants();
+  const restaurants = await fetchAllRestaurantsDetailed();
   const resTags = await fetchAllRestaurantTags();
   const resTypes = await fetchAllRestaurantTypes();
 

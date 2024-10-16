@@ -1,0 +1,155 @@
+@import "../responsive.scss";
+@import "../variables.scss";
+
+/* Grids Start */
+//Basic Grid, One Column Narrow, up to 3 columns on wide
+.basicResponsiveGrid {
+  width: $component-full;
+  display: grid;
+  grid-template-columns: repeat(minmax(200px, 1fr));
+  grid-gap: 15px;
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }
+}
+
+.oneColumnGrid {
+  width: $component-full;
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(minmax(200px, 1fr));
+}
+
+.twoColumnGrid {
+  width: $component-full;
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+}
+
+.threeColumnGrid {
+  width: $component-full;
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
+}
+
+.fourColumnGrid {
+  width: $component-full;
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
+}
+
+.fiveColumnGrid {
+  width: $component-full;
+  display: grid;
+  grid-gap: 15px;
+  grid-template-columns: repeat(5, minmax(200px, 1fr));
+}
+
+.maxTwoColumns {
+  width: $component-full;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+
+  @include lg {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+}
+
+.maxThreeColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+  @include lg {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }
+}
+
+.maxFourColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+  }
+}
+
+.maxFiveColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+
+  @include lg {
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(5, minmax(200px, 1fr));
+  }
+}
+
+.maxSixColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+
+  @include lg {
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(6, minmax(200px, 1fr));
+  }
+}
+
+.maxSevenColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+
+  @include lg {
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+}
+
+.maxEightColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+
+  @include lg {
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(8, minmax(200px, 1fr));
+  }
+}

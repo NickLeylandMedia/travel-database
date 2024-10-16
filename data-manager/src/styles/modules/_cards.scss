@@ -1,8 +1,9 @@
 .basicCard {
   border: 1px solid gray;
+  background-color: white;
   min-height: 250px;
   min-width: 150px;
-  border-radius: 25px;
+  box-sizing: content-box;
   padding: 20px;
 }
 
@@ -10,14 +11,63 @@
   background-color: white;
   min-height: 250px;
   min-width: 150px;
-  border-radius: 25px;
   padding: 20px;
+  box-sizing: content-box;
+}
+
+.raisedWhiteCardNoHover {
+  padding: 20px;
+  background-color: white;
+  box-sizing: content-box;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+}
+
+.raisedWhiteCardNoPadding {
+  background-color: white;
+  box-sizing: content-box;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+}
+
+.transparentStartRaisedWhiteCard {
+  padding: 20px;
+  background-color: transparent;
+  box-sizing: content-box;
+  transition: all 500ms ease-in-out;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.02);
+      background-color: white;
+      box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    }
+  }
+}
+
+.raisedWhiteCard {
+  padding: 20px;
+  box-sizing: content-box;
+  background-color: white;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+    }
+  }
 }
 
 @mixin whiteCardColorOutline($color) {
   background-color: white;
   border: 2px solid $color;
-  box-sizing: border-box;
+  box-sizing: content-box;
   min-height: 250px;
   min-width: 150px;
   padding: 20px;

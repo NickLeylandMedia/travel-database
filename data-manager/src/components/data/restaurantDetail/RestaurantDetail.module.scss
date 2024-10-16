@@ -1,6 +1,6 @@
 @import "../../../styles/responsive.scss";
 @import "../../../styles/variables.scss";
-@import "../../../styles/modules/links";
+@import "../../../styles/modules/clickables.scss";
 
 .RestaurantDetail {
   text-align: center;
@@ -51,7 +51,7 @@
 }
 
 .tag {
-  @include brickTag($blue, white);
+  @include brickTag($lightBlue, white);
 }
 
 .activityBox {

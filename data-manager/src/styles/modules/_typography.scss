@@ -1,4 +1,5 @@
 @import "../variables.scss";
+@import "../responsive.scss";
 
 /* Header Styles */
 //Global Styles - Font Family
@@ -32,6 +33,21 @@
   font-weight: bold;
 }
 
+/* Alignment Styles */
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+/* End Alignment Styles */
+
+/* Header Styles */
 //General Header
 h1,
 h2,
@@ -39,7 +55,7 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 20px 0;
+  margin: 12px 0;
   padding: 0;
 }
 //Primary Header
@@ -81,48 +97,45 @@ h4 {
 h5 {
   font-size: $heading-5;
 }
+
+@include lg {
+  h1 {
+    font-size: $heading-1 * 1.5;
+  }
+
+  h2 {
+    font-size: $heading-2 * 1.5;
+  }
+
+  h3 {
+    font-size: $heading-3 * 1.5;
+  }
+
+  h4 {
+    font-size: $heading-4 * 1.5;
+  }
+
+  h5 {
+    font-size: $heading-5 * 1.5;
+  }
+}
 /* End Header Styles */
 /* Paragraph Styles */
 p {
-  margin: 15px 0;
+  margin: 12px 0;
   padding: 0;
   font-family: $font-tertiary;
   font-size: $paragraph;
+
+  @include lg {
+    font-size: $paragraph * 1.25;
+  }
 }
-p.dark {
-  color: black;
-}
-p.light {
-  color: white;
-}
-/* End Paragraph Styles */
-/* Label Styles */
+
 label {
-  margin: 15px 0;
-  padding: 0;
-  font-family: $font-secondary;
-  font-size: $paragraph;
-}
-label.primary {
-  font-family: $font-primary;
-}
-/* End Label Styles */
-/* Link Styles */
-a {
   font-family: $font-tertiary;
-  font-size: $paragraph;
-  text-decoration: none;
-}
-/* End Link Styles */
-
-.left {
-  text-align: left;
+  font-size: 20px;
+  margin-bottom: 8px;
 }
 
-.center {
-  text-align: center;
-}
-
-.right {
-  text-align: right;
-}
+/* End Paragraph Styles */

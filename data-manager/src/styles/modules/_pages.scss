@@ -6,37 +6,46 @@
   min-height: 100vh;
 }
 
-// .imagePage {
-//   display: grid;
-//   grid-template-rows: auto 3fr auto;
-//   min-height: 100vh;
-//   background-image: url(../../../public/layered-peaks-haikei.svg);
-//   background-repeat: no-repeat;
-//   background-size: cover;
-//   background-position: bottom -50px center;
-// }
+.mainContent {
+  width: 100%;
+}
 
-// .hero {
-//   height: 100vh;
-//   max-height: 100%;
-//   overflow: hidden;
-//   width: 100%;
-//   background-image: url(../../../public/layered-peaks-haikei.svg);
-//   background-repeat: no-repeat;
-//   background-size: cover;
-//   background-position: bottom -50px center;
-// }
+.imagePage {
+  display: grid;
+  grid-template-rows: auto 3fr auto;
+  min-height: 100vh;
+  background-image: url(../../../public/layered-peaks-haikei.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom -50px center;
+}
 
-// .shortFooterHero {
-//   height: 100vh;
-//   max-height: 100%;
-//   overflow: hidden;
-//   width: 100%;
-//   background-image: url(../../../public/layered-peaks-haikei.svg);
-//   background-repeat: no-repeat;
-//   background-size: cover;
-//   background-position: bottom -100px center;
-// }
+.spaPage {
+  height: 100vh;
+  width: 100vw;
+}
+
+.hero {
+  height: 100vh;
+  max-height: 100%;
+  overflow: hidden;
+  width: 100%;
+  background-image: url(../../../public/layered-peaks-haikei.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom -50px center;
+}
+
+.shortFooterHero {
+  height: 100vh;
+  max-height: 100%;
+  overflow: hidden;
+  width: 100%;
+  background-image: url(../../../public/layered-peaks-haikei.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom -100px center;
+}
 
 @include lg {
   .hero {
