@@ -13,6 +13,13 @@ function fetchAllRestaurants() {
   return fetch(`${API_URL}/api/restaurants`).then((res) => res.json());
 }
 
+//All Restaurants - Detailed
+function fetchAllRestaurantsDetailed() {
+  return fetch(`${API_URL}/api/restaurants?detailed=true`).then((res) =>
+    res.json()
+  );
+}
+
 //One Restaurant
 function fetchOneRestaurant(id: string) {
   return fetch(`${API_URL}/api/restaurants/${id}`).then((res) => res.json());
@@ -161,6 +168,7 @@ function updateRestaurant(
 
 export {
   fetchAllRestaurants,
+  fetchAllRestaurantsDetailed,
   fetchOneRestaurant,
   fetchAllRestaurantTags,
   fetchAllRestaurantTypes,

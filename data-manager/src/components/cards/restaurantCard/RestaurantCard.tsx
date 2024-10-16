@@ -42,6 +42,10 @@ const RestaurantCard: React.FC<Props> = ({
     locationText = `${city}, ${state}`;
   }
 
+  if (city === "N/A" || state === "N/A") {
+    locationText = `Multiple Locations`;
+  }
+
   /* End Render Variables */
 
   /* Functions */

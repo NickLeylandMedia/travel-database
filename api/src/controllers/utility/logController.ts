@@ -16,8 +16,8 @@ const logger = createLogger({
     new transports.Console(),
     // new transports.File({ filename: "/usr/src/app/logs/adult.log" }),
     new DailyRotateFile({
-      // filename: "/home/nick/logs/travel-%DATE%.log",
-      filename: "/usr/src/app/logs/travel-%DATE%.log",
+      filename: "/home/nick/logs/travel-%DATE%.log",
+      // filename: "/usr/src/app/logs/travel-%DATE%.log",
       datePattern: "YYYY-MM-DD",
       zippedArchive: true,
       maxSize: "20m",

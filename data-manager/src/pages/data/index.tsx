@@ -23,6 +23,7 @@ import {
   fetchAllRestaurants,
   fetchAllRestaurantTags,
   fetchAllRestaurantTypes,
+  fetchAllRestaurantsDetailed,
 } from "@/modules/api";
 //Recoil
 import { useRecoilValue, useRecoilState } from "recoil";
@@ -115,7 +116,7 @@ const Data: React.FC<Props> = ({ restaurants, resTags, resTypes }) => {
 };
 
 export async function getStaticProps() {
-  const restaurants = await fetchAllRestaurants();
+  const restaurants = await fetchAllRestaurantsDetailed();
   const resTags = await fetchAllRestaurantTags();
   const resTypes = await fetchAllRestaurantTypes();
 
