@@ -169,6 +169,36 @@
     }
   }
 }
+
+//Simple Custom-Color Pill, No Hover
+@mixin pillNoHover($color) {
+  background-color: $color;
+  padding: 8px 16px;
+  border-radius: 50px;
+}
+
+//Compact Custom-Color Pill, Darken On Hover
+@mixin compactPill($color) {
+  background-color: $color;
+  padding: 4px 8px;
+  border-radius: 50px;
+
+  transition: 500ms ease-in-out;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: darken($color, 20%);
+    }
+  }
+}
+
+//Compact Custom-Color Pill, No Hover
+@mixin compactPillNoHover($color) {
+  background-color: $color;
+  padding: 4px 8px;
+  border-radius: 50px;
+}
+
 //Custom-Color Pill with Custom-Color text, background and text change on hover
 @mixin colorChangePill($color, $text-color, $hover-color, $hover-text-color) {
   background-color: $color;

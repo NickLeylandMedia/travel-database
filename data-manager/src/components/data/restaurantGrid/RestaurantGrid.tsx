@@ -38,6 +38,10 @@ const RestaurantGrid: React.FC<Props> = ({ items }) => {
           titleTextClass={"primary"}
           city={item.city}
           state={item.state}
+          categories={item.categories}
+          tags={item.tags}
+          active={item.active}
+          seasonal={item.seasonal}
         />
       );
     });
@@ -54,7 +58,7 @@ const RestaurantGrid: React.FC<Props> = ({ items }) => {
   return (
     <div className={`${styles.RestaurantGrid} wideContainer`}>
       <h1 className="primary">Restaurants</h1>
-      <div className={`${styles.gridContainer} maxFourColumns`}>
+      <div className={`${styles.gridContainer} oneToFourColumns`}>
         {renderedRestaurants}
       </div>
     </div>

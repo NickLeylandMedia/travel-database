@@ -10,14 +10,14 @@ import dotenv from "dotenv";
 
 /* API Routes */
 //Join Route Imports
-import resTagRelRoutes from "./routes/joinRoutes/restaurants_tags_rel_route";
-import resTypeRelRoutes from "./routes/joinRoutes/restaurants_types_rel_route";
+import resTagRelRoutes from "./routes/joinRoutes/restaurantTagRelationRoute";
+import resTypeRelRoutes from "./routes/joinRoutes/restaurantTypeRelationRoute";
 //Standard Route Imports
 import restReviewRoutes from "./routes/restaurantReviewRoute";
 import restRoutes from "./routes/restaurantRoute";
 import resTagRoutes from "./routes/restaurantTagRoute";
 import resTypeRoutes from "./routes/restaurantTypeRoute";
-import mealRoutes from "./routes/meals_route";
+import mealRoutes from "./routes/mealRoute";
 
 /* App Initialization */
 const app = express();

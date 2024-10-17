@@ -2,7 +2,7 @@
 //Import Express Middleware
 import express from "express";
 //Import Controllers
-import resTagRelController from "../../controllers/joinControllers/restaurants_tags_rel_cont";
+import resTagRelController from "../../controllers/joinControllers/restaurantTagRelationController";
 
 //Initialize Router
 const router = express.Router();

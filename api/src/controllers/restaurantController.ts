@@ -190,6 +190,9 @@ const getOneRestaurant = async (
   next: NextFunction
 ) => {
   try {
+    //Check if Detailed Request
+    if (req.query.detailed) {
+    }
     //Fetch Item From db
     const result = await db.query("select * from restaurants where id = $1", [
       req.params.id,

@@ -7,6 +7,8 @@ import React from "react";
 /* Image Imports */
 
 /* Component Imports */
+import Navbar from "@/components/navigation/navbar/Navbar";
+import RestaurantDetailV2 from "@/components/data/restaurantDetailV2/RestaurantDetailV2";
 
 /* Module Imports */
 
@@ -14,7 +16,7 @@ import React from "react";
 interface Props {}
 
 /* Component */
-const Restaurants: React.FC<Props> = () => {
+const RestaurantDetail: React.FC<Props> = () => {
   /* State Variables */
   /* End State Variables */
 
@@ -29,9 +31,20 @@ const Restaurants: React.FC<Props> = () => {
 
   /* Component Return Statement */
   return (
-    <div className="Restaurants page">
+    <div className="RestaurantDetail page">
       {/* Header Start */}
-      <header></header>
+      <header>
+        <Navbar
+          fontClass="primary"
+          items={[
+            { text: "Home", address: "/" },
+            { text: "Restaurants", address: "/restaurants" },
+            { text: "Categories", address: "/categories" },
+            { text: "Tags", address: "/tags" },
+            { text: "Lists", address: "/lists" },
+          ]}
+        />
+      </header>
       {/* Header End */}
       {/* Content Start */}
       <div className="mainContent"></div>
@@ -44,4 +57,4 @@ const Restaurants: React.FC<Props> = () => {
 };
 
 /* Export Statement */
-export default Restaurants;
+export default RestaurantDetail;

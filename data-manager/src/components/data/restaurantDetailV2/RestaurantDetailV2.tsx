@@ -3,42 +3,33 @@
 import React from "react";
 
 /* Stylesheet Imports */
-import styles from "./RestaurantCard.module.scss";
+import styles from "./RestaurantDetailV2.module.scss";
 
 /* Image Imports */
 
 /* Component Imports */
 import Image from "next/image";
-import Link from "next/link";
 
 /* Module Imports */
 
 /* Component Interfaces */
 interface Props {
-  id: string;
-  image: string;
   name: string;
-  titleTextClass?: "primary" | "secondary" | "tertiary";
-  city?: string;
-  state?: string;
   categories: any[];
   tags: any[];
-  active: boolean;
-  seasonal: boolean;
+  city: string;
+  state: string;
+  address: string;
 }
 
 /* Component */
-const RestaurantCard: React.FC<Props> = ({
-  id,
-  image,
+const RestaurantDetailV2: React.FC<Props> = ({
   name,
-  titleTextClass,
-  city,
-  state,
   categories,
   tags,
-  active,
-  seasonal,
+  city,
+  state,
+  address,
 }) => {
   /* State Variables */
   /* End State Variables */
@@ -54,8 +45,8 @@ const RestaurantCard: React.FC<Props> = ({
 
   /* Render Logic */
   //Render city and state if valid
-  if (city && state) {
-    locationText = `${city}, ${state}`;
+  if (address && city && state) {
+    locationText = `${address}, ${city}, ${state}`;
   }
   //Render location unknown if city or state is not entered
   if (
@@ -100,25 +91,10 @@ const RestaurantCard: React.FC<Props> = ({
 
   /* Component Return Statement */
   return (
-    <div className={`${styles.RestaurantCard} moderatelyRaisedCard`}>
-      <div className={styles.badgeBox}>
-        {active ? null : (
-          <p className={`${styles.inactiveBadge} light`}>CLOSED</p>
-        )}
-        {seasonal ? (
-          <p className={`${styles.seasonalBadge} light`}>SEASONAL</p>
-        ) : null}
-      </div>
-      <Image
-        src={image ? image : "/placeholder.jpg"}
-        className={styles.image}
-        alt={""}
-        width={1280}
-        height={720}
-      />
-      <div className={styles.infoBox}>
-        <h5 className={`${titleTextClass}`}>{name}</h5>
-        <div className={styles.locationBox}>
+    <div className={`${styles.RestaurantDetailV2} wideContainer`}>
+      <div className={`${styles.infoBox} moderatelyRaisedCard`}>
+        <h1 className="primary dark">{name}</h1>
+        <div className="flexRow">
           <Image
             alt="location icon"
             className={styles.locationIcon}
@@ -128,25 +104,12 @@ const RestaurantCard: React.FC<Props> = ({
           />
           <p>{locationText}</p>
         </div>
-        <div className={styles.categoryBox}>
-          <p>Categories:</p>
-          <div className={`${styles.categoryContainer} flexJustifyEvenly`}>
-            {renderedCategories}
-          </div>
-        </div>
-        <div className={styles.tagBox}>
-          <p>Tags:</p>
-          <div className={`${styles.tagContainer} flexJustifyEvenly`}>
-            {renderedTags}
-          </div>
-        </div>
-        <Link className={styles.link} href={`/restaurants/${id}`}>
-          DETAILS
-        </Link>
       </div>
+      <div className={styles.mealBox}></div>
+      <div className={styles.reviewBox}></div>
     </div>
   );
 };
 
 /* Export Statement */
-export default RestaurantCard;
+export default RestaurantDetailV2;

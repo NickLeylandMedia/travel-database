@@ -2,7 +2,7 @@
 //Import Express Middleware
 import express from "express";
 //Import Controllers
-import mealController from "../controllers/meals_cont";
+import mealController from "../controllers/mealController";
 
 //Initialize Router
 const router = express.Router();

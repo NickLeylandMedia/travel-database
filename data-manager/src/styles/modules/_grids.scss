@@ -57,6 +57,7 @@
   width: $component-full;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 1fr;
   gap: 20px;
 
   @include lg {
@@ -69,7 +70,7 @@
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-
+  grid-auto-rows: 1fr;
   @include lg {
     grid-template-columns: repeat(2, minmax(200px, 1fr));
   }
@@ -84,7 +85,7 @@
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(2, minmax(200px, 1fr));
-
+  grid-auto-rows: 1fr;
   @include lg {
     grid-template-columns: repeat(3, minmax(200px, 1fr));
   }
@@ -99,7 +100,7 @@
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(2, minmax(200px, 1fr));
-
+  grid-auto-rows: 1fr;
   @include lg {
     grid-template-columns: repeat(4, minmax(200px, 1fr));
   }
@@ -114,7 +115,7 @@
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(2, minmax(200px, 1fr));
-
+  grid-auto-rows: 1fr;
   @include lg {
     grid-template-columns: repeat(4, minmax(200px, 1fr));
   }
@@ -129,7 +130,7 @@
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(2, minmax(200px, 1fr));
-
+  grid-auto-rows: 1fr;
   @include lg {
     grid-template-columns: repeat(4, minmax(200px, 1fr));
   }
@@ -144,9 +145,109 @@
   display: grid;
   gap: 20px;
   grid-template-columns: repeat(2, minmax(200px, 1fr));
-
+  grid-auto-rows: 1fr;
   @include lg {
     grid-template-columns: repeat(4, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(8, minmax(200px, 1fr));
+  }
+}
+
+.oneToFourColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(minmax(200px, 1fr));
+  grid-auto-rows: 1fr;
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+  }
+}
+
+.oneToFiveColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(minmax(200px, 1fr));
+  grid-auto-rows: 1fr;
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(5, minmax(200px, 1fr));
+  }
+}
+
+.oneToSixColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(minmax(200px, 1fr));
+  grid-auto-rows: 1fr;
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(6, minmax(200px, 1fr));
+  }
+}
+
+.oneToSevenColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(minmax(200px, 1fr));
+  grid-auto-rows: 1fr;
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }
+
+  @include xl {
+    grid-template-columns: repeat(7, minmax(200px, 1fr));
+  }
+}
+
+.oneToEightColumns {
+  width: $component-full;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(minmax(200px, 1fr));
+  grid-auto-rows: 1fr;
+
+  @include md {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
   }
 
   @include xl {
