@@ -185,9 +185,9 @@ const modifyResReview = async (
     const query = await db.query(
       "update restaurant_reviews set restaurant_id = $1, title = $2, content = $3, score10 = $4, date_visited = $5, last_edited = $6 where id = $7 returning *",
       [
-        req.body.restaurant_id || "Not Entered",
-        req.body.title || "Not Entered",
-        req.body.content || "Not Entered",
+        req.body.restaurant_id,
+        req.body.title,
+        req.body.content,
         req.body.score10 || 0,
         req.body.date_visited || null,
         new Date(Date.now()).toISOString(),

@@ -169,8 +169,8 @@ const modifyResTypeRel = async (
     const query = await db.query(
       "update restaurants_types_join set restaurant_id = $1, restaurant_type_id = $2, last_edited = $3 where id = $4 returning *",
       [
-        req.body.restaurant_id || "Not entered",
-        req.body.restaurant_type_id || "Not entered",
+        req.body.restaurant_id,
+        req.body.restaurant_type_id,
         new Date(Date.now()).toISOString(),
         req.params.id,
       ]

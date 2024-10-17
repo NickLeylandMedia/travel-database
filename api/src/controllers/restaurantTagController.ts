@@ -81,7 +81,7 @@ const deleteOneResTag = async (
     //Delete Item From db
     const query = await db.query(
       "delete from restaurant_tags where id = $1 returning *",
-      [req.params.id || "not entered"]
+      [req.params.id]
     );
 
     //Verify that requested data exists
@@ -140,7 +140,7 @@ const getOneResTag = async (
     //Fetch Item From db
     const result = await db.query(
       "select * from restaurant_tags where id = $1",
-      [req.params.id || "not entered"]
+      [req.params.id]
     );
     //Verify That Requested Data Exists
     if (result.rowCount === 0) {
